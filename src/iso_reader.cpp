@@ -13,7 +13,8 @@ std::vector<uint8_t> readFile(const std::string& filePath) {
 
         buffer.resize(fileSize); // Redimensionar el buffer
         file.read(reinterpret_cast<char*>(buffer.data()), fileSize); // Leer el archivo en el buffer
-    } else {
+    }
+    else {
         std::cerr << "Error al abrir el archivo: " << filePath << std::endl;
     }
 
