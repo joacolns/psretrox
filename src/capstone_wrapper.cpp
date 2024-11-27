@@ -1,4 +1,4 @@
-// En capstone_wrapper.cpp
+ï»¿// En capstone_wrapper.cpp
 #include <sstream>  
 #include <iostream>
 #include <capstone/capstone.h>
@@ -7,7 +7,7 @@
 #include <iomanip>
 #include <ctime>
 
-// Función para desensamblar el código y guardar el log
+// FunciÃ³n para desensamblar el cÃ³digo y guardar el log
 void disassembleCode(const std::vector<uint8_t>& binaryCode, const std::string& fileName) {
     // Obtener la hora actual
     std::time_t now = std::time(0);
@@ -28,7 +28,7 @@ void disassembleCode(const std::vector<uint8_t>& binaryCode, const std::string& 
         return;
     }
 
-    // Inicializar Capstone para la arquitectura x86 (ajusta según sea necesario)
+    // Inicializar Capstone para la arquitectura x86 (ajusta segÃºn sea necesario)
     csh handle;
     cs_err err = cs_open(CS_ARCH_X86, CS_MODE_32, &handle); // Cambia a CS_MODE_64 si es arquitectura de 64 bits
     if (err != CS_ERR_OK) {
@@ -36,18 +36,18 @@ void disassembleCode(const std::vector<uint8_t>& binaryCode, const std::string& 
         return;
     }
 
-    // Desensamblar el código binario
+    // Desensamblar el cÃ³digo binario
     cs_insn* insn;
     size_t count = cs_disasm(handle, binaryCode.data(), binaryCode.size(), 0x1000, 0, &insn);
     if (count > 0) {
         for (size_t i = 0; i < count; i++) {
-            // Escribir la instrucción desensamblada en el archivo de log
+            // Escribir la instrucciÃ³n desensamblada en el archivo de log
             logFile << "0x" << std::hex << insn[i].address << ":\t" << insn[i].mnemonic << "\t" << insn[i].op_str << std::endl;
         }
         cs_free(insn, count);
     }
     else {
-        std::cerr << "No se pudo desensamblar el código." << std::endl;
+        std::cerr << "No se pudo desensamblar el cÃ³digo." << std::endl;
     }
 
     // Cerrar Capstone

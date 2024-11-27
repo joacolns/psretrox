@@ -1,10 +1,9 @@
 #ifndef ISO_READER_H
 #define ISO_READER_H
 
-#include <string>
 #include <vector>
+#include <string>
 
-// Función para leer un archivo binario y devolver su contenido como un vector de bytes
-std::vector<uint8_t> readFile(const std::string& filePath);
+std::vector<unsigned char> readFile(const std::string& filePath);
 
-#endif
+#endif // ISO_READER_H
