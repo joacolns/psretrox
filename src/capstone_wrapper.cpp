@@ -14,12 +14,19 @@ void disassembleCode(const std::vector<uint8_t>& binaryCode, const std::string& 
     struct tm timeInfo;
     localtime_s(&timeInfo, &now);  // Usar localtime_s para seguridad
 
-    // Formatear la fecha y hora
+    /*
+ 
+    TIME STREAM
+
+    
     std::stringstream timeStream;
     timeStream << std::put_time(&timeInfo, "%Y-%m-%d_%H-%M-%S");  // Formato de fecha y hora
 
     std::string timestamp = timeStream.str();
-    std::string logFileName = "out/" + fileName + "_" + timestamp + ".log";  // Nombre del archivo log
+
+    */
+
+    std::string logFileName = "out/CrashTwinsanity/" + fileName + ".log";  // Nombre del archivo log
 
     // Crear y abrir el archivo de log
     std::ofstream logFile(logFileName);

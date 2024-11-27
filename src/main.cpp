@@ -46,6 +46,10 @@ int main() {
 
     displayLogo();
 
+    std::cout << "Desensamblando Crash Twinsanity" << std::endl;
+
+    std::string filePathSYS = "iso/SYSTEM.CNF";
+
     std::string filePathBD = "iso/CRASH6/CRASH.BD";
     std::string filePathBH = "iso/CRASH6/CRASH.MH";
     std::string filePathSLUS = "iso/SLUS_209.09";
@@ -55,7 +59,11 @@ int main() {
     std::string filePathAMERICAN_MH = "iso/CRASH6/AMERICAN.MH";
 
     std::string fmvFolder = "iso/FMV"; // Carpeta donde están los archivos .PSS
-    std::string outputDir = "out/videos";
+    std::string fmvFolderBONS = "iso/FMV/BONUS"; // <-------- ONLY FOR CRASH BANDICOOT TWINSANITY
+
+    std::string IRXFolder = "iso/CRASH6/SYS";
+
+    std::string outputDir = "out/CrashTwinsanity/videos";
     if (!fs::exists(outputDir)) {
         fs::create_directory(outputDir);
     }
@@ -67,8 +75,9 @@ int main() {
     std::vector<uint8_t> binaryCodeMUSIC_MH = readFile(filePathMUSIC_MH);
     std::vector<uint8_t> binaryCodeAMERICAN_MB = readFile(filePathAMERICAN_MB);
     std::vector<uint8_t> binaryCodeAMERICAN_MH = readFile(filePathAMERICAN_MH);
+    std::vector<uint8_t> binaryCodeSYS = readFile(filePathSYS);
 
-    if (binaryCodeBD.empty() && binaryCodeSLUS.empty() && binaryCodeMUSIC_BD.empty() && binaryCodeMUSIC_MH.empty() && binaryCodeAMERICAN_MB.empty() && binaryCodeAMERICAN_MH.empty()) {
+    if (binaryCodeBD.empty() && binaryCodeSLUS.empty() && binaryCodeMUSIC_BD.empty() && binaryCodeMUSIC_MH.empty() && binaryCodeAMERICAN_MB.empty() && binaryCodeAMERICAN_MH.empty() && binaryCodeSYS.empty()) {
         std::cerr << "No se pudo leer ninguno de los archivos." << std::endl;
         return 1;
     }
@@ -110,6 +119,12 @@ int main() {
         std::cout << "Desensamblado Completado" << std::endl;
     }
 
+    if (!binaryCodeSYS.empty()) {
+        std::cout << "Desensamblando SYSTEM.CNF..." << std::endl;
+        disassembleCode(binaryCodeSYS, "SYSTEM.CNF");
+        std::cout << "Desensamblado Completado" << std::endl;
+    }
+
     // Procesar archivos .PSS en la carpeta FMV
     std::cout << "Procesando archivos en la carpeta FMV..." << std::endl;
     for (const auto& entry : fs::directory_iterator(fmvFolder)) {
@@ -129,9 +144,54 @@ int main() {
             }
 
             std::string inputFilePath = fmvFolder + "/" + fileName + ".PSS";  // Ruta completa al archivo .PSS
-            std::string outputFilePath = outputDir + "/" + fileName + ".mp4";  // Ruta completa al archivo .PSS
+            std::string outputFilePathMP4 = outputDir + "/" + fileName + ".mp4";  // Ruta completa al archivo .PSS
 
-            convertPSSToMP4(inputFilePath, outputFilePath);
+            convertPSSToMP4(inputFilePath, outputFilePathMP4);
+
+        }
+    }
+
+    std::cout << "Procesando archivos en la carpeta BONUS..." << std::endl;
+    for (const auto& entry : fs::directory_iterator(fmvFolderBONS)) {
+        if (entry.is_regular_file() && entry.path().extension() == ".PSS") {
+            std::string filePath = entry.path().string();
+            std::string fileName = entry.path().stem().string(); // Nombre del archivo sin extensión
+
+            // Leer y desensamblar el archivo .PSS
+            std::vector<uint8_t> binaryCodePSS = readFile(filePath);
+            if (!binaryCodePSS.empty()) {
+                std::cout << "Desensamblando " << fileName << ".PSS..." << std::endl;
+                disassembleCode(binaryCodePSS, fileName + ".PSS");
+                std::cout << "Desensamblado Completado" << std::endl;
+            }
+            else {
+                std::cerr << "No se pudo leer " << fileName << ".PSS" << std::endl;
+            }
+
+            std::string inputFilePath = fmvFolderBONS + "/" + fileName + ".PSS";  // Ruta completa al archivo .PSS
+            std::string outputFilePathMP4 = outputDir + "/" + fileName + ".mp4";  // Ruta completa al archivo .PSS
+
+            convertPSSToMP4(inputFilePath, outputFilePathMP4);
+
+        }
+    }
+
+    std::cout << "Procesando archivos en la carpeta SYS (IRX)..." << std::endl;
+    for (const auto& entry : fs::directory_iterator(IRXFolder)) {
+        if (entry.is_regular_file() && entry.path().extension() == ".IRX") {
+            std::string filePath = entry.path().string();
+            std::string fileName = entry.path().stem().string(); // Nombre del archivo sin extensión
+
+            // Leer y desensamblar el archivo .PSS
+            std::vector<uint8_t> binaryCodeIRX = readFile(filePath);
+            if (!binaryCodeIRX.empty()) {
+                std::cout << "Desensamblando " << fileName << ".IRX..." << std::endl;
+                disassembleCode(binaryCodeIRX, fileName + ".IRX");
+                std::cout << "Desensamblado Completado" << std::endl;
+            }
+            else {
+                std::cerr << "No se pudo leer " << fileName << ".IRX" << std::endl;
+            }
 
         }
     }
