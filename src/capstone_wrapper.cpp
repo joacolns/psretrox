@@ -49,7 +49,8 @@ void disassembleCode(const std::vector<uint8_t>& binaryCode, const std::string& 
     if (count > 0) {
         for (size_t i = 0; i < count; i++) {
             // Escribir la instrucción desensamblada en el archivo de log
-            logFile << "0x" << std::hex << insn[i].address << ":\t" << insn[i].mnemonic << "\t" << insn[i].op_str << std::endl;
+            //logFile << "0x" << std::hex << insn[i].address << ":\t" << insn[i].mnemonic << "\t" << insn[i].op_str << std::endl;
+            logFile << insn[i].mnemonic << "\t" << insn[i].op_str << std::endl;
         }
         cs_free(insn, count);
     }

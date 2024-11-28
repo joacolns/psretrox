@@ -4,6 +4,7 @@
 #include "capstone_wrapper.h"
 #include <iostream>
 #include <cstdlib>
+#include "mips_mapping.h"
 
 namespace fs = std::filesystem;
 
@@ -22,6 +23,7 @@ void displayLogo() {
  | .__/ |___/|_|   \___| \__||_|   \___//_/\_\  \___/(_)|_|   
  | |                                                       
  |_|                       
+    
     )" << std::endl;
     std::cout << reset; // Restablecer el color de la terminal
 }
@@ -40,6 +42,50 @@ int convertPSSToMP4(const std::string& inputFilePath, const std::string& outputF
     std::cout << "Conversión completada: " << outputFilePath << std::endl;
 
     return 0;
+}
+
+void recomp_C() {
+    std::cout << "Recompilando..." << std::endl;
+
+    std::string OUTFolder = "out/CrashTwinsanity";
+    std::string RECOMPFolder = "out/CrashTwinsanity/C_recomp/";
+
+    // Asegúrate de que la carpeta existe
+    if (!fs::exists(OUTFolder) || !fs::is_directory(OUTFolder)) {
+        std::cerr << "La carpeta " << OUTFolder << " no existe o no es un directorio válido." << std::endl;
+        return;
+    }
+
+    if (!fs::exists(RECOMPFolder)) {
+        std::cout << "La carpeta " << RECOMPFolder << " no existe. Creándola..." << std::endl;
+        if (!fs::create_directory(RECOMPFolder)) {
+            std::cerr << "Error al crear la carpeta " << RECOMPFolder << std::endl;
+            return;
+        }
+    }
+
+    for (const auto& entry : fs::directory_iterator(OUTFolder)) {
+        if (entry.is_regular_file() && entry.path().extension() == ".log") {
+            std::string filePath = entry.path().string();
+            std::string fileName = entry.path().stem().string(); // Nombre del archivo sin extensión
+
+            std::cout << "Procesando archivo: " << fileName << ".log" << std::endl;
+
+            // Generar un archivo de salida único con el mismo nombre del archivo .log
+            std::string archivo_salida = RECOMPFolder + fileName + ".c";
+
+            // Leer y desensamblar el archivo .log
+            std::vector<uint8_t> assemblyfile = readFile(filePath);
+            if (!assemblyfile.empty()) {
+                std::cout << "Recompilando " << fileName << " a C..." << std::endl;
+                convertir_a_C(filePath, archivo_salida);  // Usar el nombre dinámico
+                std::cout << "Recompilado Completado para " << fileName << std::endl;
+            }
+            else {
+                std::cerr << "No se pudo leer el archivo " << fileName << ".log" << std::endl;
+            }
+        }
+    }
 }
 
 int main() {
@@ -196,7 +242,10 @@ int main() {
         }
     }
 
+    recomp_C();
+
     std::cout << "Proceso finalizado." << std::endl;
+
     return 0;
 }
 

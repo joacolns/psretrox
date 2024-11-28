@@ -6,3 +6,6 @@
 # testing
 /out
 /testing
+
+# other
+.gitignore
