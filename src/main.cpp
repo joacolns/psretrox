@@ -2,7 +2,6 @@
 #include <filesystem>
 #include "iso_reader.h"
 #include "capstone_wrapper.h"
-#include <iostream>
 #include <cstdlib>
 #include "mips_mapping.h"
 
@@ -26,6 +25,16 @@ void displayLogo() {
     
     )" << std::endl;
     std::cout << reset; // Restablecer el color de la terminal
+}
+
+void menu() {
+
+        std::cout << "1 - Decompile and recompile to C" << std::endl;
+        std::cout << "2 - Decompile to MIPS assembly" << std::endl;
+        std::cout << "3 - Recompile to C" << std::endl;
+        std::cout << "4 - Decompile cutscenes" << std::endl;
+        std::cout << "q - Quit" << std::endl;
+        std::cout << "\n";
 }
 
 int convertPSSToMP4(const std::string& inputFilePath, const std::string& outputFilePath) {
@@ -65,11 +74,11 @@ void recomp_C() {
     }
 
     for (const auto& entry : fs::directory_iterator(OUTFolder)) {
-        if (entry.is_regular_file() && entry.path().extension() == ".log") {
+        if (entry.is_regular_file() && entry.path().extension() == ".asm") {
             std::string filePath = entry.path().string();
             std::string fileName = entry.path().stem().string(); // Nombre del archivo sin extensión
 
-            std::cout << "Procesando archivo: " << fileName << ".log" << std::endl;
+            std::cout << "Procesando archivo: " << fileName << ".asm" << std::endl;
 
             // Generar un archivo de salida único con el mismo nombre del archivo .log
             std::string archivo_salida = RECOMPFolder + fileName + ".c";
@@ -88,9 +97,7 @@ void recomp_C() {
     }
 }
 
-int main() {
-
-    displayLogo();
+int DecompileMIPS() {
 
     std::cout << "Desensamblando Crash Twinsanity" << std::endl;
 
@@ -104,12 +111,10 @@ int main() {
     std::string filePathAMERICAN_MB = "iso/CRASH6/AMERICAN.MB";
     std::string filePathAMERICAN_MH = "iso/CRASH6/AMERICAN.MH";
 
-    std::string fmvFolder = "iso/FMV"; // Carpeta donde están los archivos .PSS
-    std::string fmvFolderBONS = "iso/FMV/BONUS"; // <-------- ONLY FOR CRASH BANDICOOT TWINSANITY
-
     std::string IRXFolder = "iso/CRASH6/SYS";
 
     std::string outputDir = "out/CrashTwinsanity/videos";
+
     if (!fs::exists(outputDir)) {
         fs::create_directory(outputDir);
     }
@@ -171,6 +176,41 @@ int main() {
         std::cout << "Desensamblado Completado" << std::endl;
     }
 
+    std::cout << "Procesando archivos en la carpeta SYS (IRX)..." << std::endl;
+    for (const auto& entry : fs::directory_iterator(IRXFolder)) {
+        if (entry.is_regular_file() && entry.path().extension() == ".IRX") {
+            std::string filePath = entry.path().string();
+            std::string fileName = entry.path().stem().string(); // Nombre del archivo sin extensión
+
+            // Leer y desensamblar el archivo .PSS
+            std::vector<uint8_t> binaryCodeIRX = readFile(filePath);
+            if (!binaryCodeIRX.empty()) {
+                std::cout << "Desensamblando " << fileName << ".IRX..." << std::endl;
+                disassembleCode(binaryCodeIRX, fileName + ".IRX");
+                std::cout << "Desensamblado Completado" << std::endl;
+            }
+            else {
+                std::cerr << "No se pudo leer " << fileName << ".IRX" << std::endl;
+            }
+
+        }
+    }
+
+
+    return 0;
+}
+
+int PSS_Processor() {
+
+    std::string fmvFolder = "iso/FMV"; // Carpeta donde están los archivos .PSS
+    std::string fmvFolderBONS = "iso/FMV/BONUS"; // <-------- ONLY FOR CRASH BANDICOOT TWINSANITY
+
+    std::string outputDir = "out/CrashTwinsanity/videos";
+
+    if (!fs::exists(outputDir)) {
+        fs::create_directory(outputDir);
+    }
+
     // Procesar archivos .PSS en la carpeta FMV
     std::cout << "Procesando archivos en la carpeta FMV..." << std::endl;
     for (const auto& entry : fs::directory_iterator(fmvFolder)) {
@@ -222,27 +262,39 @@ int main() {
         }
     }
 
-    std::cout << "Procesando archivos en la carpeta SYS (IRX)..." << std::endl;
-    for (const auto& entry : fs::directory_iterator(IRXFolder)) {
-        if (entry.is_regular_file() && entry.path().extension() == ".IRX") {
-            std::string filePath = entry.path().string();
-            std::string fileName = entry.path().stem().string(); // Nombre del archivo sin extensión
+    return 0;
+}
 
-            // Leer y desensamblar el archivo .PSS
-            std::vector<uint8_t> binaryCodeIRX = readFile(filePath);
-            if (!binaryCodeIRX.empty()) {
-                std::cout << "Desensamblando " << fileName << ".IRX..." << std::endl;
-                disassembleCode(binaryCodeIRX, fileName + ".IRX");
-                std::cout << "Desensamblado Completado" << std::endl;
-            }
-            else {
-                std::cerr << "No se pudo leer " << fileName << ".IRX" << std::endl;
-            }
+int main() {
 
-        }
+    char selection;
+
+    displayLogo();
+    menu();
+
+    std::cin >> selection;
+
+    switch (selection) {
+    case '1':
+        DecompileMIPS();
+        PSS_Processor();
+        recomp_C();
+        break;
+    case '2':
+        DecompileMIPS();
+        break;
+    case '3':
+        recomp_C();
+        break;
+    case '4':
+        PSS_Processor();
+        break;
+    case 'q':
+        break;
+    default:
+        std::cout << "Invalid option. Please try again.\n";
+        break;
     }
-
-    recomp_C();
 
     std::cout << "Proceso finalizado." << std::endl;
 

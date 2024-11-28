@@ -26,9 +26,9 @@ void disassembleCode(const std::vector<uint8_t>& binaryCode, const std::string& 
 
     */
 
-    std::string logFileName = "out/CrashTwinsanity/" + fileName + ".log";  // Nombre del archivo log
+    std::string logFileName = "out/CrashTwinsanity/" + fileName + ".asm";  // Nombre del archivo log
 
-    // Crear y abrir el archivo de log
+    // Crear y abrir el archivo de asm
     std::ofstream logFile(logFileName);
     if (!logFile) {
         std::cerr << "Error al abrir el archivo de log." << std::endl;
@@ -61,6 +61,6 @@ void disassembleCode(const std::vector<uint8_t>& binaryCode, const std::string& 
     // Cerrar Capstone
     cs_close(&handle);
 
-    // Cerrar el archivo de log
+    // Cerrar el archivo de asm
     logFile.close();
 }
