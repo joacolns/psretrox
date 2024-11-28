@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\audio_extractor.cpp" />
     <ClCompile Include="src\capstone_wrapper.cpp" />
     <ClCompile Include="src\iso_reader.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -145,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="include\capstone_wrapper.h" />
     <ClInclude Include="include\iso_reader.h" />
+    <ClInclude Include="src\audio_extractor.h" />
     <ClInclude Include="src\mips_mapping.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

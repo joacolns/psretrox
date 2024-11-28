@@ -4,6 +4,7 @@
 #include "capstone_wrapper.h"
 #include <cstdlib>
 #include "mips_mapping.h"
+#include "audio_extractor.h"
 
 namespace fs = std::filesystem;
 
@@ -29,10 +30,11 @@ void displayLogo() {
 
 void menu() {
 
-        std::cout << "1 - Decompile and recompile to C" << std::endl;
+        std::cout << "1 - Decompile files and recompile to C" << std::endl;
         std::cout << "2 - Decompile to MIPS assembly" << std::endl;
         std::cout << "3 - Recompile to C" << std::endl;
         std::cout << "4 - Decompile cutscenes" << std::endl;
+        std::cout << "5 - Decompile audios" << std::endl;
         std::cout << "q - Quit" << std::endl;
         std::cout << "\n";
 }
@@ -265,11 +267,83 @@ int PSS_Processor() {
     return 0;
 }
 
+int audio_extraction_test() {
+    try {
+        // Ruta de los archivos de entrada
+        std::string musicMBPath = "iso/CRASH6/MUSIC.MB";
+        std::string musicMHPath = "iso/CRASH6/MUSIC.MH";
+
+        // Directorio de salida
+        std::string outputDir = "out/CrashTwinsanity/audios";
+
+        if (!std::filesystem::exists(outputDir)) {
+            std::filesystem::create_directory(outputDir);
+        }
+
+        // Extraer las pistas
+        extractAudioTracks(musicMBPath, musicMHPath, outputDir);
+        std::cout << "Extracción completada. Los archivos están en: " << outputDir << std::endl;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    return 0;
+}
+
+void convertVagToAudio(const std::string& inputFilePath, const std::string& outputFilePath) {
+    // Ruta completa a vgmstream-cli
+    std::string vgmstreamPath = "C:/VisualStudioLibraries/vgmstream/vgmstream-cli.exe";
+    std::string command = vgmstreamPath + " -o " + outputFilePath + " " + inputFilePath;
+
+    // Ejecutar el comando en la terminal
+    int result = std::system(command.c_str());
+
+    // Verificar si la conversión fue exitosa
+    if (result == 0) {
+        std::cout << "Conversión exitosa: " << inputFilePath << " a " << outputFilePath << std::endl;
+    }
+    else {
+        std::cerr << "Hubo un error al convertir el archivo: " << inputFilePath << std::endl;
+    }
+}
+
+int audioOut() {
+    // Directorio donde están los archivos .vag extraídos
+    std::string inputDirectory = "out/CrashTwinsanity/audios";
+
+    // Directorio donde guardar los archivos convertidos
+    std::string outputDirectory = "out/CrashTwinsanity/audios";
+
+    // Verificar que el directorio de salida existe, si no, crearlo
+    if (!std::filesystem::exists(outputDirectory)) {
+        std::filesystem::create_directory(outputDirectory);
+    }
+
+    // Iterar sobre los archivos .vag en el directorio de entrada
+    for (const auto& entry : std::filesystem::directory_iterator(inputDirectory)) {
+        if (entry.path().extension() == ".vag") {
+            // Obtener la ruta completa del archivo .vag
+            std::string inputFilePath = entry.path().string();
+
+            // Crear la ruta de salida para el archivo convertido (en .mp3)
+            std::string outputFilePath = outputDirectory + entry.path().stem().string() + ".mp3";
+
+            // Llamar a la función para convertir el archivo
+            convertVagToAudio(inputFilePath, outputFilePath);
+        }
+    }
+
+    return 0;
+}
+
+
 int main() {
 
     char selection;
 
     displayLogo();
+
     menu();
 
     std::cin >> selection;
@@ -279,6 +353,8 @@ int main() {
         DecompileMIPS();
         PSS_Processor();
         recomp_C();
+        audio_extraction_test();
+        audioOut();
         break;
     case '2':
         DecompileMIPS();
@@ -288,6 +364,10 @@ int main() {
         break;
     case '4':
         PSS_Processor();
+        break;
+    case '5':
+        audio_extraction_test();
+        audioOut();
         break;
     case 'q':
         break;
@@ -299,5 +379,6 @@ int main() {
     std::cout << "Proceso finalizado." << std::endl;
 
     return 0;
+
 }
 
