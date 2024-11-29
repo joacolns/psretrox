@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef AUDIO_EXTRACTOR_H
 #define AUDIO_EXTRACTOR_H
 

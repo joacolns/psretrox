@@ -1,10 +1,14 @@
 ﻿#include <iostream>
+#include <cstdlib>
 #include <filesystem>
+#include <vector>
+#include <string>
+
 #include "iso_reader.h"
 #include "capstone_wrapper.h"
-#include <cstdlib>
 #include "mips_mapping.h"
 #include "audio_extractor.h"
+#include "3d_proccesor.h"
 
 namespace fs = std::filesystem;
 
@@ -28,13 +32,15 @@ void displayLogo() {
     std::cout << reset; // Restablecer el color de la terminal
 }
 
-void menu() {
 
+
+void menu() {
         std::cout << "1 - Decompile files and recompile to C" << std::endl;
         std::cout << "2 - Decompile to MIPS assembly" << std::endl;
         std::cout << "3 - Recompile to C" << std::endl;
-        std::cout << "4 - Decompile cutscenes" << std::endl;
-        std::cout << "5 - Decompile audios" << std::endl;
+        std::cout << "4 - Decompile 3D models" << std::endl;
+        std::cout << "5 - Decompile cutscenes" << std::endl;
+        std::cout << "6 - Decompile audios" << std::endl;
         std::cout << "q - Quit" << std::endl;
         std::cout << "\n";
 }
@@ -337,10 +343,30 @@ int audioOut() {
     return 0;
 }
 
+int tdproccesor() {
+    std::string crashBHPath = "iso/CRASH6/CRASH.BH";
+    std::string crashBDPath = "iso/CRASH6/CRASH.BD";
+    std::string outputDir = "out/CrashTwinsanity/3D";
+
+    if (!std::filesystem::exists(outputDir)) {
+        std::filesystem::create_directory(outputDir);
+    }
+
+    try {
+        extractModels(crashBHPath, crashBDPath, outputDir);
+        std::cout << "Extracción y conversión de modelos completada." << std::endl;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    return 0;
+}
+
 
 int main() {
 
-    char selection;
+     char selection;
 
     displayLogo();
 
@@ -355,6 +381,7 @@ int main() {
         recomp_C();
         audio_extraction_test();
         audioOut();
+		tdproccesor();
         break;
     case '2':
         DecompileMIPS();
@@ -363,9 +390,12 @@ int main() {
         recomp_C();
         break;
     case '4':
-        PSS_Processor();
+        tdproccesor();
         break;
     case '5':
+        PSS_Processor();
+        break;
+    case '6':
         audio_extraction_test();
         audioOut();
         break;
@@ -375,6 +405,7 @@ int main() {
         std::cout << "Invalid option. Please try again.\n";
         break;
     }
+
 
     std::cout << "Proceso finalizado." << std::endl;
 

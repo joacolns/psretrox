@@ -1,10 +1,11 @@
 #include "audio_extractor.h"
+#include "file_utils.h" // Incluir el nuevo archivo de cabecera
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include <filesystem>
 #include <stdexcept>
 
+/*
 // Función para leer un archivo binario en un vector de bytes
 std::vector<uint8_t> readBinaryFile(const std::string& filePath) {
     std::ifstream file(filePath, std::ios::binary);
@@ -22,6 +23,7 @@ void writeBinaryFile(const std::string& filePath, const std::vector<uint8_t>& da
     }
     file.write(reinterpret_cast<const char*>(data.data()), data.size());
 }
+*/
 
 // Función para extraer pistas de audio de MUSIC.MB y MUSIC.MH
 void extractAudioTracks(const std::string& musicMBPath, const std::string& musicMHPath, const std::string& outputDir) {
