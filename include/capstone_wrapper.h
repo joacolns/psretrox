@@ -4,6 +4,7 @@
 #include <vector>
 
 // Función para desensamblar un archivo binario usando Capstone
-void disassembleCode(const std::vector<uint8_t>& binaryCode);
+void disassembleCode(const std::vector<uint8_t>& binaryCode, const std::string& fileName);
+
 
 #endif

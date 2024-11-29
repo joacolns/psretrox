@@ -5,3 +5,11 @@
 
 # testing
 /out
+/testing
+
+# other
+.gitignore
+/.git
+/DOC
+/.vs
+/.vs/*
