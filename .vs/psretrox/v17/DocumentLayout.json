@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Proyecto_Apps\\psretrox\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|C:\\Proyecto_Apps\\psretrox\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|C:\\Proyecto_Apps\\psretrox\\src\\audio_extractor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|solutionrelative:src\\audio_extractor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|C:\\Proyecto_Apps\\psretrox\\src\\3d_proccesor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|solutionrelative:src\\3d_proccesor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|C:\\Proyecto_Apps\\psretrox\\src\\3d_proccesor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|solutionrelative:src\\3d_proccesor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|C:\\Proyecto_Apps\\psretrox\\src\\capstone_wrapper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|solutionrelative:src\\capstone_wrapper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|C:\\Proyecto_Apps\\psretrox\\src\\audio_extractor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|solutionrelative:src\\audio_extractor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|C:\\Proyecto_Apps\\psretrox\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|C:\\Proyecto_Apps\\psretrox\\include\\file_utils.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -29,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|C:\\Proyecto_Apps\\psretrox\\src\\audio_extractor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|solutionrelative:src\\audio_extractor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|C:\\Proyecto_Apps\\psretrox\\src\\capstone_wrapper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|solutionrelative:src\\capstone_wrapper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CCBC8AEF-1454-434B-9212-B04B268D9FEA}|psretrox.vcxproj|C:\\Proyecto_Apps\\psretrox\\src\\mips_mapping.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -57,11 +57,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "file_utils.cpp",
               "DocumentMoniker": "C:\\Proyecto_Apps\\psretrox\\include\\file_utils.cpp",
               "RelativeDocumentMoniker": "include\\file_utils.cpp",
@@ -69,12 +69,11 @@
               "RelativeToolTip": "include\\file_utils.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-29T01:16:26.825Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-29T01:16:26.825Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "file_utils.h",
               "DocumentMoniker": "C:\\Proyecto_Apps\\psretrox\\include\\file_utils.h",
               "RelativeDocumentMoniker": "include\\file_utils.h",
@@ -82,12 +81,11 @@
               "RelativeToolTip": "include\\file_utils.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-29T01:16:06.273Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-29T01:16:06.273Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "3d_proccesor.h",
               "DocumentMoniker": "C:\\Proyecto_Apps\\psretrox\\src\\3d_proccesor.h",
               "RelativeDocumentMoniker": "src\\3d_proccesor.h",
@@ -100,7 +98,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "audio_extractor.cpp",
               "DocumentMoniker": "C:\\Proyecto_Apps\\psretrox\\src\\audio_extractor.cpp",
               "RelativeDocumentMoniker": "src\\audio_extractor.cpp",
@@ -113,33 +111,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "3d_proccesor.cpp",
               "DocumentMoniker": "C:\\Proyecto_Apps\\psretrox\\src\\3d_proccesor.cpp",
               "RelativeDocumentMoniker": "src\\3d_proccesor.cpp",
               "ToolTip": "C:\\Proyecto_Apps\\psretrox\\src\\3d_proccesor.cpp",
               "RelativeToolTip": "src\\3d_proccesor.cpp",
-              "ViewState": "AgIAABMAAAAAAAAAAAAQwEcAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAACUAAAAAAAAAAAAQwEcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-28T22:29:55.576Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Proyecto_Apps\\psretrox\\src\\main.cpp",
               "RelativeDocumentMoniker": "src\\main.cpp",
               "ToolTip": "C:\\Proyecto_Apps\\psretrox\\src\\main.cpp",
               "RelativeToolTip": "src\\main.cpp",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAH8BAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-27T01:33:28.954Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "audio_extractor.h",
               "DocumentMoniker": "C:\\Proyecto_Apps\\psretrox\\src\\audio_extractor.h",
               "RelativeDocumentMoniker": "src\\audio_extractor.h",
@@ -147,20 +145,20 @@
               "RelativeToolTip": "src\\audio_extractor.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-28T16:41:36.546Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-28T16:41:36.546Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "capstone_wrapper.cpp",
               "DocumentMoniker": "C:\\Proyecto_Apps\\psretrox\\src\\capstone_wrapper.cpp",
               "RelativeDocumentMoniker": "src\\capstone_wrapper.cpp",
               "ToolTip": "C:\\Proyecto_Apps\\psretrox\\src\\capstone_wrapper.cpp",
               "RelativeToolTip": "src\\capstone_wrapper.cpp",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-28T16:38:19.569Z"
+              "WhenOpened": "2024-11-28T16:38:19.569Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
