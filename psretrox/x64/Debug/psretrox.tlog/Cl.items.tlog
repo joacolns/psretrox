@@ -1,4 +1,12 @@
 C:\Proyecto_Apps\psretrox\include\file_utils.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\file_utils.obj
+C:\Proyecto_Apps\psretrox\include\imgui\imgui.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\imgui.obj
+C:\Proyecto_Apps\psretrox\include\imgui\imgui_demo.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\imgui_demo.obj
+C:\Proyecto_Apps\psretrox\include\imgui\imgui_draw.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\imgui_draw.obj
+C:\Proyecto_Apps\psretrox\include\imgui\imgui_impl_glfw.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\imgui_impl_glfw.obj
+C:\Proyecto_Apps\psretrox\include\imgui\imgui_impl_opengl3.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\imgui_impl_opengl3.obj
+C:\Proyecto_Apps\psretrox\include\imgui\imgui_impl_win32.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\imgui_impl_win32.obj
+C:\Proyecto_Apps\psretrox\include\imgui\imgui_tables.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\imgui_tables.obj
+C:\Proyecto_Apps\psretrox\include\imgui\imgui_widgets.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\imgui_widgets.obj
 C:\Proyecto_Apps\psretrox\src\3d_proccesor.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\3d_proccesor.obj
 C:\Proyecto_Apps\psretrox\src\audio_extractor.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\audio_extractor.obj
 C:\Proyecto_Apps\psretrox\src\capstone_wrapper.cpp;C:\Proyecto_Apps\psretrox\psretrox\x64\Debug\capstone_wrapper.obj

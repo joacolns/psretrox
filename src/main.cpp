@@ -10,6 +10,12 @@
 #include "audio_extractor.h"
 #include "3d_proccesor.h"
 
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include <GLFW/glfw3.h>
+#include <sstream>
+
 namespace fs = std::filesystem;
 
 void displayLogo() {
@@ -31,8 +37,6 @@ void displayLogo() {
     )" << std::endl;
     std::cout << reset; // Restablecer el color de la terminal
 }
-
-
 
 void menu() {
         std::cout << "1 - Decompile files and recompile to C" << std::endl;
@@ -363,7 +367,179 @@ int tdproccesor() {
     return 0;
 }
 
+class Logger {
+public:
+    Logger() {
+        old_buf = std::cout.rdbuf();
+        std::cout.rdbuf(buffer.rdbuf());
+    }
 
+    ~Logger() {
+        std::cout.rdbuf(old_buf);
+    }
+
+    void clear() {
+        buffer.str("");
+        buffer.clear();
+    }
+
+    std::string getBuffer() const {
+        return buffer.str();
+    }
+
+private:
+    std::stringstream buffer;
+    std::streambuf* old_buf;
+};
+
+int main() {
+    // Inicializar GLFW
+    if (!glfwInit()) {
+        std::cerr << "Error al inicializar GLFW" << std::endl;
+        return -1;
+    }
+
+    // Configurar GLFW
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    // Crear una ventana GLFW
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "psretrox v0.1", nullptr, nullptr);
+    if (!window) {
+        std::cerr << "Error al crear la ventana GLFW" << std::endl;
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval(1); // Habilitar V-Sync
+
+    // Inicializar ImGui
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    // Configurar ImGui
+    ImGui::StyleColorsDark();
+
+    // Inicializar ImGui para GLFW y OpenGL
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
+
+    // DEFAULT PATH(S) FOR TESTING
+    char SLUSPath[256] = "iso/SLUS_209.09";
+    char SYSTEMPath[256] = "iso/SYSTEM.CNF";
+    char crashBHPath[256] = "iso/CRASH6/CRASH.BH";
+    char crashBDPath[256] = "iso/CRASH6/CRASH.BD";
+    char lFile[256] = "iso/CRASH6/AMERICAN.MB";
+    char lFileHeader[256] = "iso/CRASH6/AMERICAN.MH";
+    char MusicFile[256] = "iso/CRASH6/MUSIC.MB";
+    char MusicFileHeader[256] = "iso/CRASH6/MUSIC.MH";
+    char PSS[256] = "iso/CRASH6/FMV/";
+    char SYS[256] = "iso/CRASH6/SYS/";
+    char outputDir[256] = "out/CrashTwinsanity/";
+
+    // Crear una instancia de Logger
+    Logger logger;
+
+    // Bucle principal
+    while (!glfwWindowShouldClose(window)) {
+        // Manejar eventos de GLFW
+        glfwPollEvents();
+
+        // Iniciar un nuevo frame ImGui
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        // Crear la ventana ImGui
+        ImGui::Begin("Decompiler/Recompiler");
+
+        // Cuadros de texto para importar archivos
+        ImGui::InputText(".SLUS Path", SLUSPath, IM_ARRAYSIZE(SLUSPath));
+        ImGui::InputText(".BH Path", crashBHPath, IM_ARRAYSIZE(crashBHPath));
+        ImGui::InputText(".BD Path", crashBDPath, IM_ARRAYSIZE(crashBDPath));
+        ImGui::InputText("Music File", MusicFile, IM_ARRAYSIZE(MusicFile));
+        ImGui::InputText("Music File (Header)", MusicFileHeader, IM_ARRAYSIZE(MusicFileHeader));
+        ImGui::InputText("Language File", lFile, IM_ARRAYSIZE(lFile));
+        ImGui::InputText("Language File (Header)", lFileHeader, IM_ARRAYSIZE(lFileHeader));
+        ImGui::InputText("PSS/FMV Directory", PSS, IM_ARRAYSIZE(PSS));
+        ImGui::InputText("SYS/IRX Directory", SYS, IM_ARRAYSIZE(SYS));
+
+        ImGui::InputText("Output Directory", outputDir, IM_ARRAYSIZE(outputDir));
+
+        // Botones para ejecutar las funciones
+        if (ImGui::Button("Decompile & Recompile files")) {
+            DecompileMIPS();
+            recomp_C();
+            PSS_Processor();
+            audio_extraction_test();
+            extractModels(crashBHPath, crashBDPath, outputDir);
+        }
+        if (ImGui::Button("Decompile MIPS")) {
+            DecompileMIPS();
+        }
+        if (ImGui::Button("Recompile to C")) {
+            recomp_C();
+        }
+        if (ImGui::Button("Decompile 3D Models")) {
+            extractModels(crashBHPath, crashBDPath, outputDir);
+        }
+        if (ImGui::Button("Decompile PSS")) {
+            PSS_Processor();
+        }
+        if (ImGui::Button("Decompile Audios")) {
+            audio_extraction_test();
+        }
+        if (ImGui::Button("Open Retrox Engine")) {
+            return 0;
+        }
+        /*
+        if (ImGui::Button("Decompile Textures")) {
+            extractTextures(crashBHPath, crashBDPath, outputDir);
+        }
+        */
+
+        ImGui::End();
+
+        // Crear la ventana de registro
+        ImGui::Begin("Log");
+        ImGui::TextUnformatted(logger.getBuffer().c_str());
+        ImGui::End();
+
+        ImGui::Begin("MIPS Files");
+        ImGui::End();
+
+        ImGui::Begin("Recompiled Files");
+        ImGui::End();
+
+        ImGui::Begin("3D Viewer");
+        ImGui::End();
+
+        // Renderizar ImGui
+        ImGui::Render();
+        int display_w, display_h;
+        glfwGetFramebufferSize(window, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+        glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        // Intercambiar buffers
+        glfwSwapBuffers(window);
+    }
+
+    // Limpiar y finalizar ImGui y GLFW
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+    glfwDestroyWindow(window);
+    glfwTerminate();
+
+    return 0;
+}
+
+/*
 int main() {
 
      char selection;
@@ -412,4 +588,4 @@ int main() {
     return 0;
 
 }
-
+*/
