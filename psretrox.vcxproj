@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\VisualStudioLibraries\capstone-lib\include;C:\Proyecto_Apps\psretrox\include;C:\VisualStudioLibraries\ffmpeg\bin;C:\Proyecto_Apps\psretrox\include\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VisualStudioLibraries\capstone-lib\include;C:\Proyecto_Apps\psretrox\include;C:\VisualStudioLibraries\ffmpeg\bin;C:\Proyecto_Apps\psretrox\include\imgui;C:\Proyecto_Apps\psretrox\src\GUI\functions;C:\Proyecto_Apps\psretrox\src\tools;C:\Proyecto_Apps\psretrox\src\GUI</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\VisualStudioLibraries\capstone-lib\include;C:\Proyecto_Apps\psretrox\include;C:\VisualStudioLibraries\ffmpeg\bin;C:\Proyecto_Apps\psretrox\include\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VisualStudioLibraries\capstone-lib\include;C:\Proyecto_Apps\psretrox\include;C:\VisualStudioLibraries\ffmpeg\bin;C:\Proyecto_Apps\psretrox\include\imgui;C:\Proyecto_Apps\psretrox\src\GUI\functions;C:\Proyecto_Apps\psretrox\src\tools;C:\Proyecto_Apps\psretrox\src\GUI</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -144,12 +144,14 @@
     <ClCompile Include="include\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="include\imgui\imgui_tables.cpp" />
     <ClCompile Include="include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\3d_proccesor.cpp" />
-    <ClCompile Include="src\audio_extractor.cpp" />
-    <ClCompile Include="src\capstone_wrapper.cpp" />
-    <ClCompile Include="src\iso_reader.cpp" />
+    <ClCompile Include="src\GUI\GUI.cpp" />
+    <ClCompile Include="src\tools\3d_proccesor.cpp" />
+    <ClCompile Include="src\tools\audio_extractor.cpp" />
+    <ClCompile Include="src\tools\capstone_wrapper.cpp" />
+    <ClCompile Include="src\tools\iso_reader.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\mips_mapping.cpp" />
+    <ClCompile Include="src\tools\mips_mapping.cpp" />
+    <ClCompile Include="src\tools\PSS_Proccesor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\assimp\aabb.h" />
@@ -230,7 +232,9 @@
     <ClInclude Include="include\assimp\XmlParser.h" />
     <ClInclude Include="include\assimp\XMLTools.h" />
     <ClInclude Include="include\assimp\ZipArchiveIOSystem.h" />
-    <ClInclude Include="include\capstone_wrapper.h" />
+    <ClInclude Include="include\stb_image.h" />
+    <ClInclude Include="src\GUI\GUI.h" />
+    <ClInclude Include="src\tools\capstone_wrapper.h" />
     <ClInclude Include="include\file_utils.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
@@ -248,10 +252,11 @@
     <ClInclude Include="include\imgui\imstb_rectpack.h" />
     <ClInclude Include="include\imgui\imstb_textedit.h" />
     <ClInclude Include="include\imgui\imstb_truetype.h" />
-    <ClInclude Include="include\iso_reader.h" />
-    <ClInclude Include="src\3d_proccesor.h" />
-    <ClInclude Include="src\audio_extractor.h" />
-    <ClInclude Include="src\mips_mapping.h" />
+    <ClInclude Include="src\tools\iso_reader.h" />
+    <ClInclude Include="src\tools\3d_proccesor.h" />
+    <ClInclude Include="src\tools\audio_extractor.h" />
+    <ClInclude Include="src\tools\mips_mapping.h" />
+    <ClInclude Include="src\tools\PSS_Proccesor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\assimp\.editorconfig" />
@@ -267,6 +272,9 @@
     <None Include="include\assimp\vector2.inl" />
     <None Include="include\assimp\vector3.inl" />
     <None Include="testing\3d\triangle.fbx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="include\ico.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

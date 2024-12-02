@@ -18,19 +18,19 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\capstone_wrapper.cpp">
+    <ClCompile Include="src\tools\capstone_wrapper.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\iso_reader.cpp">
+    <ClCompile Include="src\tools\iso_reader.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\mips_mapping.cpp">
+    <ClCompile Include="src\tools\mips_mapping.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\3d_proccesor.cpp">
+    <ClCompile Include="src\tools\3d_proccesor.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\audio_extractor.cpp">
+    <ClCompile Include="src\tools\audio_extractor.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="include\file_utils.cpp">
@@ -60,15 +60,21 @@
     <ClCompile Include="include\imgui\imgui_widgets.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="src\tools\PSS_Proccesor.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\GUI.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\capstone_wrapper.h">
+    <ClInclude Include="src\tools\capstone_wrapper.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="include\iso_reader.h">
+    <ClInclude Include="src\tools\iso_reader.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="src\mips_mapping.h">
+    <ClInclude Include="src\tools\mips_mapping.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="include\assimp\Importer.hpp">
@@ -305,10 +311,10 @@
     <ClInclude Include="include\assimp\config.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="src\3d_proccesor.h">
+    <ClInclude Include="src\tools\3d_proccesor.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="src\audio_extractor.h">
+    <ClInclude Include="src\tools\audio_extractor.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="include\file_utils.h">
@@ -362,6 +368,15 @@
     <ClInclude Include="include\GL\wglew.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="src\tools\PSS_Proccesor.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stb_image.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\GUI.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\assimp\.editorconfig" />
@@ -393,5 +408,10 @@
       <Filter>Archivos de encabezado</Filter>
     </None>
     <None Include="testing\3d\triangle.fbx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="include\ico.png">
+      <Filter>Archivos de recursos</Filter>
+    </Image>
   </ItemGroup>
 </Project>

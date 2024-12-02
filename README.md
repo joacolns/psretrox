@@ -53,4 +53,4 @@ Use consistent formatting and follow modern C++ practices.
 
 ### **Reporting Issues**
 
-If you find a bug or have a feature request, please open an issue with a detailed description.
+If you find a bug or have a feature request, please open an issue with a detailed description. 
