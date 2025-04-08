@@ -11,9 +11,10 @@
 #include "3d_proccesor.h"
 
 namespace fs = std::filesystem;
+void processPSSFiles(const std::string& folderPath, const std::string& outputDir);
 
 void displayLogo() {
-    // Códigos de escape ANSI para texto rojo
+    //Red color escape code
     const std::string red = "\033[31m";
     const std::string reset = "\033[0m";
 
@@ -29,7 +30,7 @@ void displayLogo() {
  |_|                       
     
     )" << std::endl;
-    std::cout << reset; // Restablecer el color de la terminal
+    std::cout << reset; //Restore terminal color
 }
 
 
@@ -46,37 +47,37 @@ void menu() {
 }
 
 int convertPSSToMP4(const std::string& inputFilePath, const std::string& outputFilePath) {
-    // Construir el comando de FFmpeg para convertir el archivo .PSS a .MP4
+    //.PSS to .MP4 conversion preprocessing with FFmpeg
     std::string command = "ffmpeg -i " + inputFilePath + " -vcodec libx264 -acodec aac " + outputFilePath;
 
-    // Ejecutar el comando de FFmpeg
+    //Execute ffmpeg command
     int result = std::system(command.c_str());
     if (result != 0) {
-        std::cerr << "Error al convertir el archivo." << std::endl;
+        std::cerr << "Error when converting the file." << std::endl;
         return -1;
     }
 
-    std::cout << "Conversión completada: " << outputFilePath << std::endl;
+    std::cout << "Converting done." << outputFilePath << std::endl;
 
     return 0;
 }
 
 void recomp_C() {
-    std::cout << "Recompilando..." << std::endl;
+    std::cout << "Recompiling..." << std::endl;
 
     std::string OUTFolder = "out/CrashTwinsanity";
     std::string RECOMPFolder = "out/CrashTwinsanity/C_recomp/";
 
-    // Asegúrate de que la carpeta existe
+    //Check if the folder exists.
     if (!fs::exists(OUTFolder) || !fs::is_directory(OUTFolder)) {
-        std::cerr << "La carpeta " << OUTFolder << " no existe o no es un directorio válido." << std::endl;
+        std::cerr << "The folder " << OUTFolder << " does not exist or it's not a valid directory." << std::endl;
         return;
     }
 
     if (!fs::exists(RECOMPFolder)) {
-        std::cout << "La carpeta " << RECOMPFolder << " no existe. Creándola..." << std::endl;
+        std::cout << "The folder " << RECOMPFolder << " does not exist. Creating it..." << std::endl;
         if (!fs::create_directory(RECOMPFolder)) {
-            std::cerr << "Error al crear la carpeta " << RECOMPFolder << std::endl;
+            std::cerr << "Could not create the folder... " << RECOMPFolder << std::endl;
             return;
         }
     }
@@ -84,22 +85,22 @@ void recomp_C() {
     for (const auto& entry : fs::directory_iterator(OUTFolder)) {
         if (entry.is_regular_file() && entry.path().extension() == ".asm") {
             std::string filePath = entry.path().string();
-            std::string fileName = entry.path().stem().string(); // Nombre del archivo sin extensión
+            std::string fileName = entry.path().stem().string(); //filename (without the extension)
 
-            std::cout << "Procesando archivo: " << fileName << ".asm" << std::endl;
+            std::cout << "Processing file: " << fileName << ".asm" << std::endl;
 
-            // Generar un archivo de salida único con el mismo nombre del archivo .log
+            //Make a new output file with the same name as the .asm file
             std::string archivo_salida = RECOMPFolder + fileName + ".c";
 
-            // Leer y desensamblar el archivo .log
+            //Read and disassemble the .asm (log) file
             std::vector<uint8_t> assemblyfile = readFile(filePath);
             if (!assemblyfile.empty()) {
-                std::cout << "Recompilando " << fileName << " a C..." << std::endl;
-                convertir_a_C(filePath, archivo_salida);  // Usar el nombre dinámico
-                std::cout << "Recompilado Completado para " << fileName << std::endl;
+                std::cout << "Recompiling " << fileName << " to C..." << std::endl;
+                convertir_a_C(filePath, archivo_salida);  //Dinamic mode activated
+                std::cout << "Finishing in... " << fileName << std::endl;
             }
             else {
-                std::cerr << "No se pudo leer el archivo " << fileName << ".log" << std::endl;
+                std::cerr << "Could not read the file " << fileName << ".log" << std::endl;
             }
         }
     }
@@ -107,7 +108,7 @@ void recomp_C() {
 
 int DecompileMIPS() {
 
-    std::cout << "Desensamblando Crash Twinsanity" << std::endl;
+    std::cout << "Disassembling Crash Twinsanity" << std::endl;
 
     std::string filePathSYS = "iso/SYSTEM.CNF";
 
@@ -127,7 +128,7 @@ int DecompileMIPS() {
         fs::create_directory(outputDir);
     }
 
-    // Leer los archivos binarios
+    //Read binary files
     std::vector<uint8_t> binaryCodeBD = readFile(filePathBD);
     std::vector<uint8_t> binaryCodeSLUS = readFile(filePathSLUS);
     std::vector<uint8_t> binaryCodeMUSIC_BD = readFile(filePathMUSIC_BD);
@@ -137,68 +138,68 @@ int DecompileMIPS() {
     std::vector<uint8_t> binaryCodeSYS = readFile(filePathSYS);
 
     if (binaryCodeBD.empty() && binaryCodeSLUS.empty() && binaryCodeMUSIC_BD.empty() && binaryCodeMUSIC_MH.empty() && binaryCodeAMERICAN_MB.empty() && binaryCodeAMERICAN_MH.empty() && binaryCodeSYS.empty()) {
-        std::cerr << "No se pudo leer ninguno de los archivos." << std::endl;
+        std::cerr << "No binary file could be read." << std::endl;
         return 1;
     }
 
     // Desensamblar los archivos
     if (!binaryCodeBD.empty()) {
-        std::cout << "Desensamblando CRASH.BD..." << std::endl;
+        std::cout << "Disassembling CRASH.BD." << std::endl;
         disassembleCode(binaryCodeBD, "CRASH.BD");
-        std::cout << "Desensamblado Completado" << std::endl;
+        std::cout << "CRASH.BD disassembling completed!" << std::endl;
     }
 
     if (!binaryCodeSLUS.empty()) {
-        std::cout << "Desensamblando SLUS_209.09..." << std::endl;
+        std::cout << "Disassembling SLUS_209.09..." << std::endl;
         disassembleCode(binaryCodeSLUS, "SLUS_209.09");
-        std::cout << "Desensamblado Completado" << std::endl;
+        std::cout << "SLUS_209.09 disassembling completed!" << std::endl;
     }
 
     if (!binaryCodeMUSIC_BD.empty()) {
-        std::cout << "Desensamblando MUSIC.MB..." << std::endl;
+        std::cout << "Disassembling MUSIC.MB..." << std::endl;
         disassembleCode(binaryCodeMUSIC_BD, "MUSIC.MB");
-        std::cout << "Desensamblado Completado" << std::endl;
+        std::cout << "MUSIC.MB disassembling completed!" << std::endl;
     }
 
     if (!binaryCodeMUSIC_MH.empty()) {
-        std::cout << "Desensamblando MUSIC.MH..." << std::endl;
+        std::cout << "Disassembling MUSIC.MH...." << std::endl;
         disassembleCode(binaryCodeMUSIC_MH, "MUSIC.MH");
-        std::cout << "Desensamblado Completado" << std::endl;
+        std::cout << "MUSIC.MH disassembling completed!" << std::endl;
     }
 
     if (!binaryCodeAMERICAN_MB.empty()) {
-        std::cout << "Desensamblando AMERICAN.MB..." << std::endl;
+        std::cout << "Disassembling AMERICAN.MB..." << std::endl;
         disassembleCode(binaryCodeAMERICAN_MB, "AMERICAN.MB");
-        std::cout << "Desensamblado Completado" << std::endl;
+        std::cout << "AMERICAN.MB disassembling completed!" << std::endl;
     }
 
     if (!binaryCodeAMERICAN_MH.empty()) {
-        std::cout << "Desensamblando AMERICAN.MH..." << std::endl;
+        std::cout << "Disassembling AMERICAN.MH..." << std::endl;
         disassembleCode(binaryCodeAMERICAN_MH, "AMERICAN.MH");
-        std::cout << "Desensamblado Completado" << std::endl;
+        std::cout << "AMERICAN.MH disassembling completed!" << std::endl;
     }
 
     if (!binaryCodeSYS.empty()) {
-        std::cout << "Desensamblando SYSTEM.CNF..." << std::endl;
+        std::cout << "Disassembling SYSTEM.CNF..." << std::endl;
         disassembleCode(binaryCodeSYS, "SYSTEM.CNF");
-        std::cout << "Desensamblado Completado" << std::endl;
+        std::cout << "SYSTEM.CNF disassembling completed!" << std::endl;
     }
 
-    std::cout << "Procesando archivos en la carpeta SYS (IRX)..." << std::endl;
+    std::cout << "Processing files in SYS (IRX)" << std::endl;
     for (const auto& entry : fs::directory_iterator(IRXFolder)) {
         if (entry.is_regular_file() && entry.path().extension() == ".IRX") {
             std::string filePath = entry.path().string();
-            std::string fileName = entry.path().stem().string(); // Nombre del archivo sin extensión
+            std::string fileName = entry.path().stem().string(); //filename without the extension
 
-            // Leer y desensamblar el archivo .PSS
+            //Read and disassemble the .PSS file
             std::vector<uint8_t> binaryCodeIRX = readFile(filePath);
             if (!binaryCodeIRX.empty()) {
-                std::cout << "Desensamblando " << fileName << ".IRX..." << std::endl;
+                std::cout << "Disassembling " << fileName << ".IRX..." << std::endl;
                 disassembleCode(binaryCodeIRX, fileName + ".IRX");
-                std::cout << "Desensamblado Completado" << std::endl;
+                std::cout << fileName << ".IRX disassembling completed!" << std::endl;
             }
             else {
-                std::cerr << "No se pudo leer " << fileName << ".IRX" << std::endl;
+                std::cerr << "Could not read" << fileName << ".IRX" << std::endl;
             }
 
         }
@@ -209,86 +210,65 @@ int DecompileMIPS() {
 }
 
 int PSS_Processor() {
-
-    std::string fmvFolder = "iso/FMV"; // Carpeta donde están los archivos .PSS
+    std::string fmvFolder = "iso/FMV"; // Save .PSS path
     std::string fmvFolderBONS = "iso/FMV/BONUS"; // <-------- ONLY FOR CRASH BANDICOOT TWINSANITY
-
     std::string outputDir = "out/CrashTwinsanity/videos";
 
     if (!fs::exists(outputDir)) {
         fs::create_directory(outputDir);
     }
 
-    // Procesar archivos .PSS en la carpeta FMV
-    std::cout << "Procesando archivos en la carpeta FMV..." << std::endl;
-    for (const auto& entry : fs::directory_iterator(fmvFolder)) {
-        if (entry.is_regular_file() && entry.path().extension() == ".PSS") {
-            std::string filePath = entry.path().string();
-            std::string fileName = entry.path().stem().string(); // Nombre del archivo sin extensión
+    // Process .PSS files in the FMV folder
+    std::cout << "Processing FMV files... " << std::endl;
+    processPSSFiles(fmvFolder, outputDir);
 
-            // Leer y desensamblar el archivo .PSS
-            std::vector<uint8_t> binaryCodePSS = readFile(filePath);
-            if (!binaryCodePSS.empty()) {
-                std::cout << "Desensamblando " << fileName << ".PSS..." << std::endl;
-                disassembleCode(binaryCodePSS, fileName + ".PSS");
-                std::cout << "Desensamblado Completado" << std::endl;
-            }
-            else {
-                std::cerr << "No se pudo leer " << fileName << ".PSS" << std::endl;
-            }
-
-            std::string inputFilePath = fmvFolder + "/" + fileName + ".PSS";  // Ruta completa al archivo .PSS
-            std::string outputFilePathMP4 = outputDir + "/" + fileName + ".mp4";  // Ruta completa al archivo .PSS
-
-            convertPSSToMP4(inputFilePath, outputFilePathMP4);
-
-        }
-    }
-
-    std::cout << "Procesando archivos en la carpeta BONUS..." << std::endl;
-    for (const auto& entry : fs::directory_iterator(fmvFolderBONS)) {
-        if (entry.is_regular_file() && entry.path().extension() == ".PSS") {
-            std::string filePath = entry.path().string();
-            std::string fileName = entry.path().stem().string(); // Nombre del archivo sin extensión
-
-            // Leer y desensamblar el archivo .PSS
-            std::vector<uint8_t> binaryCodePSS = readFile(filePath);
-            if (!binaryCodePSS.empty()) {
-                std::cout << "Desensamblando " << fileName << ".PSS..." << std::endl;
-                disassembleCode(binaryCodePSS, fileName + ".PSS");
-                std::cout << "Desensamblado Completado" << std::endl;
-            }
-            else {
-                std::cerr << "No se pudo leer " << fileName << ".PSS" << std::endl;
-            }
-
-            std::string inputFilePath = fmvFolderBONS + "/" + fileName + ".PSS";  // Ruta completa al archivo .PSS
-            std::string outputFilePathMP4 = outputDir + "/" + fileName + ".mp4";  // Ruta completa al archivo .PSS
-
-            convertPSSToMP4(inputFilePath, outputFilePathMP4);
-
-        }
-    }
+    // Process .PSS files in the BONUS folder
+    std::cout << "Processing BONUS folder" << std::endl;
+    processPSSFiles(fmvFolderBONS, outputDir);
 
     return 0;
 }
 
+void processPSSFiles(const std::string& folderPath, const std::string& outputDir) {
+    for (const auto& entry : fs::directory_iterator(folderPath)) {
+        if (entry.is_regular_file() && entry.path().extension() == ".PSS") {
+            std::string filePath = entry.path().string();
+            std::string fileName = entry.path().stem().string(); // filename without extension
+
+            // Read and disassemble the .PSS file
+            std::vector<uint8_t> binaryCodePSS = readFile(filePath);
+            if (!binaryCodePSS.empty()) {
+                std::cout << "Disassembling " << fileName << ".PSS..." << std::endl;
+                disassembleCode(binaryCodePSS, fileName + ".PSS");
+                std::cout << fileName << ".PSS disassembling completed!" << std::endl;
+            } else {
+                std::cerr << "Could not read " << fileName << ".PSS" << std::endl;
+            }
+
+            std::string inputFilePath = folderPath + "/" + fileName + ".PSS";  // Path to the .PSS file
+            std::string outputFilePathMP4 = outputDir + "/" + fileName + ".mp4";  // Path to the .MP4 file
+
+            convertPSSToMP4(inputFilePath, outputFilePathMP4);
+        }
+    }
+}
+
 int audio_extraction_test() {
     try {
-        // Ruta de los archivos de entrada
+        //Music.MB and Music.MH paths
         std::string musicMBPath = "iso/CRASH6/MUSIC.MB";
         std::string musicMHPath = "iso/CRASH6/MUSIC.MH";
 
-        // Directorio de salida
+        //Output directory
         std::string outputDir = "out/CrashTwinsanity/audios";
 
         if (!std::filesystem::exists(outputDir)) {
             std::filesystem::create_directory(outputDir);
         }
 
-        // Extraer las pistas
+        //Extract tracks
         extractAudioTracks(musicMBPath, musicMHPath, outputDir);
-        std::cout << "Extracción completada. Los archivos están en: " << outputDir << std::endl;
+        std::cout << "Extraction complete! Files saved to: " << outputDir << std::endl;
     }
     catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
@@ -298,44 +278,44 @@ int audio_extraction_test() {
 }
 
 void convertVagToAudio(const std::string& inputFilePath, const std::string& outputFilePath) {
-    // Ruta completa a vgmstream-cli
+    //vgmstream-cli path
     std::string vgmstreamPath = "C:/VisualStudioLibraries/vgmstream/vgmstream-cli.exe";
     std::string command = vgmstreamPath + " -o " + outputFilePath + " " + inputFilePath;
 
-    // Ejecutar el comando en la terminal
+    //Execute command
     int result = std::system(command.c_str());
 
-    // Verificar si la conversión fue exitosa
+    //Check if the command was successful
     if (result == 0) {
-        std::cout << "Conversión exitosa: " << inputFilePath << " a " << outputFilePath << std::endl;
+        std::cout << "Converted files " << inputFilePath << " saved in " << outputFilePath << std::endl;
     }
     else {
-        std::cerr << "Hubo un error al convertir el archivo: " << inputFilePath << std::endl;
+        std::cerr << "There was an error converting the files. " << inputFilePath << std::endl;
     }
 }
 
 int audioOut() {
-    // Directorio donde están los archivos .vag extraídos
+    //.vag files input path
     std::string inputDirectory = "out/CrashTwinsanity/audios";
 
-    // Directorio donde guardar los archivos convertidos
+    //.vag files output path
     std::string outputDirectory = "out/CrashTwinsanity/audios";
 
-    // Verificar que el directorio de salida existe, si no, crearlo
+    //Check if the output directory exists or if it needs to be created.
     if (!std::filesystem::exists(outputDirectory)) {
         std::filesystem::create_directory(outputDirectory);
     }
 
-    // Iterar sobre los archivos .vag en el directorio de entrada
+    //Loop through the input directory and convert each .vag file to .mp3
     for (const auto& entry : std::filesystem::directory_iterator(inputDirectory)) {
         if (entry.path().extension() == ".vag") {
-            // Obtener la ruta completa del archivo .vag
+            //path to .vag file
             std::string inputFilePath = entry.path().string();
 
-            // Crear la ruta de salida para el archivo convertido (en .mp3)
+            //output path to .mp3 file
             std::string outputFilePath = outputDirectory + entry.path().stem().string() + ".mp3";
 
-            // Llamar a la función para convertir el archivo
+            //convert .vag to .mp3
             convertVagToAudio(inputFilePath, outputFilePath);
         }
     }
@@ -407,7 +387,7 @@ int main() {
     }
 
 
-    std::cout << "Proceso finalizado." << std::endl;
+    std::cout << "Finished processing." << std::endl;
 
     return 0;
 

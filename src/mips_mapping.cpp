@@ -5,574 +5,574 @@
 
 using namespace std;
 
-void agregar_bibliotecas(ofstream& salida) {
-    salida << "#include <iostream>" << endl;
-    salida << "#include <fstream>" << endl;
-    salida << "#include <sstream>" << endl;
-    salida << "#include <string>" << endl;
-    salida << "#include <vector>" << endl;
-    salida << "#include <stack>" << endl;
-    salida << endl;
+void addLibraries(ofstream& output) {
+    output << "#include <iostream>" << endl;
+    output << "#include <fstream>" << endl;
+    output << "#include <sstream>" << endl;
+    output << "#include <string>" << endl;
+    output << "#include <vector>" << endl;
+    output << "#include <stack>" << endl;
+    output << endl;
 }
 
-void procesar_instruccion(const string& instruccion, ofstream& salida) {
-    stringstream ss(instruccion);
-    string operacion;
-    ss >> operacion;
+void processInstruction(const string& instruction, ofstream& output) {
+    stringstream ss(instruction);
+    string operation;
+    ss >> operation;
 
-    if (operacion == "add") {
+    if (operation == "add") {
         string dest, src;
         ss >> dest >> src;
-        salida << dest << " += " << src << ";" << endl;
+        output << dest << " += " << src << ";" << endl;
     }
-    else if (operacion == "sub") {
+    else if (operation == "sub") {
         string dest, src;
         ss >> dest >> src;
-        salida << dest << " -= " << src << ";" << endl;
+        output << dest << " -= " << src << ";" << endl;
     }
-    else if (operacion == "and") {
+    else if (operation == "and") {
         string dest, src;
         ss >> dest >> src;
-        salida << dest << " &= " << src << ";" << endl;
+        output << dest << " &= " << src << ";" << endl;
     }
-    else if (operacion == "or") {
+    else if (operation == "or") {
         string dest, src;
         ss >> dest >> src;
-        salida << dest << " |= " << src << ";" << endl;
+        output << dest << " |= " << src << ";" << endl;
     }
-    else if (operacion == "xor") {
+    else if (operation == "xor") {
         string dest, src;
         ss >> dest >> src;
-        salida << dest << " ^= " << src << ";" << endl;
+        output << dest << " ^= " << src << ";" << endl;
     }
-    else if (operacion == "adc") {
+    else if (operation == "adc") {
         string dest, src;
         ss >> dest >> src;
-        salida << dest << " += " << src << " + CF; // Suma con Carry" << endl;
+        output << dest << " += " << src << " + CF; // Suma con Carry" << endl;
     }
-    else if (operacion == "cmp") {
+    else if (operation == "cmp") {
         string op1, op2;
         ss >> op1 >> op2;
-        salida << "if (" << op1 << " != " << op2 << ") { /* Acción */ };" << endl;
+        output << "if (" << op1 << " != " << op2 << ") { /* Acciï¿½n */ };" << endl;
     }
-    else if (operacion == "test") {
+    else if (operation == "test") {
         string op1, op2;
         ss >> op1 >> op2;
-        salida << "if ((" << op1 << " & " << op2 << ") == 0) { /* Acción */ };" << endl;
+        output << "if ((" << op1 << " & " << op2 << ") == 0) { /* Acciï¿½n */ };" << endl;
     }
-    else if (operacion == "jmp") {
+    else if (operation == "jmp") {
         string dest;
         ss >> dest;
-        salida << "goto " << dest << ";" << endl;
+        output << "goto " << dest << ";" << endl;
     }
-    else if (operacion == "jo") {
+    else if (operation == "jo") {
         string dest;
         ss >> dest;
-        salida << "if (OF) goto " << dest << "; // Overflow Flag" << endl;
+        output << "if (OF) goto " << dest << "; // Overflow Flag" << endl;
     }
-    else if (operacion == "jg") {
+    else if (operation == "jg") {
         string dest;
         ss >> dest;
-        salida << "if (SF == OF && ZF == 0) goto " << dest << "; // Jump if Greater" << endl;
+        output << "if (SF == OF && ZF == 0) goto " << dest << "; // Jump if Greater" << endl;
     }
-    else if (operacion == "scasb") {
+    else if (operation == "scasb") {
         string reg, ptr;
         ss >> reg >> ptr;
-        salida << "if (" << reg << " == " << ptr << ") { /* Acción */ };" << endl;
+        output << "if (" << reg << " == " << ptr << ") { /* Acciï¿½n */ };" << endl;
     }
-    else if (operacion == "arpl") {
+    else if (operation == "arpl") {
         string dest, src;
         ss >> dest >> src;
-        salida << "// Ajuste de privilegios de segmento no soportado en alto nivel" << endl;
+        output << "//Segment privilege not supported on high levels" << endl;
     }
-    else if (operacion == "cld") {
-        salida << "DF = 0; // Clear Direction Flag" << endl;
+    else if (operation == "cld") {
+        output << "DF = 0; // Clear Direction Flag" << endl;
     }
-    else if (operacion == "sbb") {
+    else if (operation == "sbb") {
         string dest, src;
         ss >> dest >> src;
-        salida << dest << " = " << dest << " - (" << src << " + CF); // Subtract with Borrow" << endl;
+        output << dest << " = " << dest << " - (" << src << " + CF); // Subtract with Borrow" << endl;
     }
-    else if (operacion == "push") {
+    else if (operation == "push") {
         string src;
         ss >> src;
-        salida << "stack.push(" << src << ");" << endl;
+        output << "stack.push(" << src << ");" << endl;
     }
-    else if (operacion == "pop") {
+    else if (operation == "pop") {
         string dest;
         ss >> dest;
-        salida << dest << " = stack.pop();" << endl;
+        output << dest << " = stack.pop();" << endl;
     }
-    else if (operacion == "in") {
+    else if (operation == "in") {
         string dest, port;
         ss >> dest >> port;
-        salida << dest << " = port_in(" << port << ");" << endl;
+        output << dest << " = port_in(" << port << ");" << endl;
     }
-    else if (operacion == "invd") {
-        salida << "// Invalidate internal caches (no equivalente en alto nivel)" << endl;
+    else if (operation == "invd") {
+        output << "// Invalidate internal caches (no equivalent in high-level)" << endl;
     }
-    else if (operacion == "lds") {
+    else if (operation == "lds") {
         string dest, src;
         ss >> dest >> src;
-        salida << dest << " = " << src << "; // Load pointer and DS segment" << endl;
+        output << dest << " = " << src << "; // Load pointer and DS segment" << endl;
     }
-    else if (operacion == "movsd") {
+    else if (operation == "movsd") {
         string dest, src;
         ss >> dest >> src;
-        salida << "*(" << dest << ") = *(" << src << "); // Move string data" << endl;
+        output << "*(" << dest << ") = *(" << src << "); // Move string data" << endl;
     }
-    else if (operacion == "dec") {
+    else if (operation == "dec") {
         string dest;
         ss >> dest;
-        salida << dest << " -= 1;" << endl;
+        output << dest << " -= 1;" << endl;
     }
-    else if (operacion == "mov") {
+    else if (operation == "mov") {
         string reg, value;
         ss >> reg >> value;
         if (reg == "ch" && value == "0xff") {
-            salida << "ch = 0xff;" << endl;
+            output << "ch = 0xff;" << endl;
         }
     }
-    else if (operacion == "inc") {
+    else if (operation == "inc") {
         string reg;
         ss >> reg;
-        salida << reg << " += 1;" << endl;
+        output << reg << " += 1;" << endl;
     }
-    else if (operacion == "rol") {
+    else if (operation == "rol") {
         string reg, val;
         ss >> reg >> val;
-        salida << "rotate_left(" << reg << ", " << val << ");" << endl;
+        output << "rotate_left(" << reg << ", " << val << ");" << endl;
     }
-    else if (operacion == "xchg") {
+    else if (operation == "xchg") {
         string reg1, reg2;
         ss >> reg1 >> reg2;
-        salida << "swap(" << reg1 << ", " << reg2 << ");" << endl;
+        output << "swap(" << reg1 << ", " << reg2 << ");" << endl;
     }
 
-    else if(operacion == "jge") {
+    else if(operation == "jge") {
         string dest;
         ss >> dest;
-        salida << "if (SF == OF && ZF == 0) goto " << dest << "; // Jump if Greater or Equal" << endl;
+        output << "if (SF == OF && ZF == 0) goto " << dest << "; // Jump if Greater or Equal" << endl;
     }
-    else if (operacion == "pavgb") {
+    else if (operation == "pavgb") {
         string reg1, reg2;
         ss >> reg1 >> reg2;
-        salida << reg1 << " = ( " << reg1 << " + " << reg2 << " ) / 2; // Packed Average Bytes" << endl;
+        output << reg1 << " = ( " << reg1 << " + " << reg2 << " ) / 2; // Packed Average Bytes" << endl;
     }
-    else if (operacion == "ret") {
-        salida << "return;" << endl;
+    else if (operation == "ret") {
+        output << "return;" << endl;
     }
-    else if (operacion == "je") {
+    else if (operation == "je") {
         string dest;
         ss >> dest;
-        salida << "if (ZF == 1) goto " << dest << "; // Jump if Equal" << endl;
+        output << "if (ZF == 1) goto " << dest << "; // Jump if Equal" << endl;
     }
-    else if (operacion == "nop") {
-        salida << "// No Operation" << endl;
+    else if (operation == "nop") {
+        output << "// No Operation" << endl;
     }
-    else if (operacion == "pushal") {
-        salida << "// Simular 'pushal', guardar todos los registros" << endl;
-        salida << "stack.push(eax);" << endl;
-        salida << "stack.push(ebx);" << endl;
-        salida << "stack.push(ecx);" << endl;
-        salida << "stack.push(edx);" << endl;
-        salida << "stack.push(esi);" << endl;
-        salida << "stack.push(edi);" << endl;
-        salida << "stack.push(ebp);" << endl;
+    else if (operation == "pushal") {
+        output << "//Akin to 'pushal', save all entries" << endl;
+        output << "stack.push(eax);" << endl;
+        output << "stack.push(ebx);" << endl;
+        output << "stack.push(ecx);" << endl;
+        output << "stack.push(edx);" << endl;
+        output << "stack.push(esi);" << endl;
+        output << "stack.push(edi);" << endl;
+        output << "stack.push(ebp);" << endl;
     }
-    else if (operacion == "sldt") {
+    else if (operation == "sldt") {
         string ptr;
         ss >> ptr;
-        salida << "ldt = " << ptr << "; // Cargar Local Descriptor Table" << endl;
+        output << "ldt = " << ptr << "; // Load Local Descriptor Table" << endl;
     }
-    else if (operacion == "cwde") {
-        salida << "eax = (int)eax; // Convertir de palabra a doble palabra (extend)" << endl;
+    else if (operation == "cwde") {
+        output << "eax = (int)eax; // Convert from word to double word (extend)" << endl;
     }
-    else if (operacion == "jecxz") {
+    else if (operation == "jecxz") {
         string dest;
         ss >> dest;
-        salida << "if (ecx == 0) goto " << dest << "; // Jump if ECX is zero" << endl;
+        output << "if (ecx == 0) goto " << dest << "; // Jump if ECX is zero" << endl;
     }
-    else if (operacion == "insd") {
+    else if (operation == "insd") {
         string ptr;
         ss >> ptr;
-        salida << "port_in(" << ptr << "); // Input String or Data to es:[edi]" << endl;
+        output << "port_in(" << ptr << "); // Input String or Data to es:[edi]" << endl;
     }
-    else if (operacion == "das") {
-        salida << "// Decimal Adjust after Subtraction (no equivalente en C)" << endl;
+    else if (operation == "das") {
+        output << "//Decimal Adjust after Subtraction (no equivalent in C)" << endl;
     }
-    else if (operacion == "js") {
+    else if (operation == "js") {
         string dest;
         ss >> dest;
-        salida << "if (SF == 1) goto " << dest << "; // Jump if Signed" << endl;
+        output << "if (SF == 1) goto " << dest << "; // Jump if Signed" << endl;
     }
-    else if (operacion == "loopne") {
+    else if (operation == "loopne") {
         string dest;
         ss >> dest;
-        salida << "if (ecx != 0 && ZF == 0) goto " << dest << "; // Loop while not Zero and Not Equal" << endl;
+        output << "if (ecx != 0 && ZF == 0) goto " << dest << "; // Loop while not Zero and Not Equal" << endl;
     }
-    else if (operacion == "rcl") {
+    else if (operation == "rcl") {
         string reg;
         ss >> reg;
-        salida << "rotate_carry_left(" << reg << "); // Rotate Carry Left" << endl;
+        output << "rotate_carry_left(" << reg << "); // Rotate Carry Left" << endl;
     }
-    else if (operacion == "imul") {
+    else if (operation == "imul") {
         string reg1, reg2;
         ss >> reg1 >> reg2;
-        salida << reg1 << " *= " << reg2 << "; // Integer Multiply" << endl;
+        output << reg1 << " *= " << reg2 << "; // Integer Multiply" << endl;
     }
-    else if (operacion == "leave") {
-        salida << "ebp = stack.pop(); // Leave function (restore stack)" << endl;
+    else if (operation == "leave") {
+        output << "ebp = stack.pop(); // Leave function (restore stack)" << endl;
     }
-    else if (operacion == "out") {
+    else if (operation == "out") {
         string port, reg;
         ss >> port >> reg;
-        salida << "port_out(" << port << ", " << reg << "); // Output to port" << endl;
+        output << "port_out(" << port << ", " << reg << "); // Output to port" << endl;
     }
-    else if (operacion == "psubd") {
+    else if (operation == "psubd") {
         string reg1, reg2;
         ss >> reg1 >> reg2;
-        salida << reg1 << " -= " << reg2 << "; // Subtract Packed Data" << endl;
+        output << reg1 << " -= " << reg2 << "; // Subtract Packed Data" << endl;
     }
-    else if (operacion == "cmc") {
-        salida << "CF = !CF; // Complement Carry Flag" << endl;
+    else if (operation == "cmc") {
+        output << "CF = !CF; // Complement Carry Flag" << endl;
     }
-    else if (operacion == "jno") {
+    else if (operation == "jno") {
         string dest;
         ss >> dest;
-        salida << "if (!OF) goto " << dest << "; // Jump if No Overflow" << endl;
+        output << "if (!OF) goto " << dest << "; // Jump if No Overflow" << endl;
     }
-    else if (operacion == "outsd") {
+    else if (operation == "outsd") {
         string port, src;
         ss >> port >> src;
-        salida << "port_out(" << port << ", " << src << "); // Output String Data" << endl;
+        output << "port_out(" << port << ", " << src << "); // Output String Data" << endl;
     }
-    else if (operacion == "call") {
+    else if (operation == "call") {
         string addr;
         ss >> addr;
-        salida << "call_function(" << addr << "); // Llamar a dirección específica" << endl;
+        output << "call_function(" << addr << "); //Call to specific address" << endl;
     }
-    else if (operacion == "fistp") {
+    else if (operation == "fistp") {
         string ptr;
         ss >> ptr;
-        salida << "*(" << ptr << ") = (int)FPU_TOP; // Store Integer and Pop FPU Stack" << endl;
+        output << "*(" << ptr << ") = (int)FPU_TOP; // Store Integer and Pop FPU Stack" << endl;
     }
-    else if (operacion == "fsubr") {
+    else if (operation == "fsubr") {
         string src;
         ss >> src;
-        salida << "FPU_TOP = " << src << " - FPU_TOP; // Reverse Subtraction on FPU" << endl;
+        output << "FPU_TOP = " << src << " - FPU_TOP; // Reverse Subtraction on FPU" << endl;
     }
-    else if (operacion == "lea") {
+    else if (operation == "lea") {
         string dest, addr;
         ss >> dest >> addr;
-        salida << dest << " = &(" << addr << "); // Load Effective Address" << endl;
+        output << dest << " = &(" << addr << "); // Load Effective Address" << endl;
     }
-    else if (operacion == "int3") {
-        salida << "debug_breakpoint(); // Interrupt 3" << endl;
+    else if (operation == "int3") {
+        output << "debug_breakpoint(); // Interrupt 3" << endl;
     }
-    else if (operacion == "not") {
+    else if (operation == "not") {
         string dest;
         ss >> dest;
-        salida << dest << " = ~" << dest << "; // Logical NOT" << endl;
+        output << dest << " = ~" << dest << "; // Logical NOT" << endl;
     }
-    else if (operacion == "popal") {
-        salida << "// Simular 'popal', restaurar todos los registros" << endl;
-        salida << "edi = stack.pop();" << endl;
-        salida << "esi = stack.pop();" << endl;
-        salida << "ebp = stack.pop();" << endl;
-        salida << "// Ignorar 'esp', mantenerlo intacto" << endl;
-        salida << "ebx = stack.pop();" << endl;
-        salida << "edx = stack.pop();" << endl;
-        salida << "ecx = stack.pop();" << endl;
-        salida << "eax = stack.pop();" << endl;
+    else if (operation == "popal") {
+        output << "//Simulate 'popal', restore all registers" << endl;
+        output << "edi = stack.pop();" << endl;
+        output << "esi = stack.pop();" << endl;
+        output << "ebp = stack.pop();" << endl;
+        output << "//Ignore 'esp', keep it intact" << endl;
+        output << "ebx = stack.pop();" << endl;
+        output << "edx = stack.pop();" << endl;
+        output << "ecx = stack.pop();" << endl;
+        output << "eax = stack.pop();" << endl;
     }
-    else if (operacion == "outsb") {
+    else if (operation == "outsb") {
         string port, src;
         ss >> port >> src;
-        salida << "port_out(" << port << ", " << src << "); // Output String Byte" << endl;
+        output << "port_out(" << port << ", " << src << "); // Output String Byte" << endl;
     }
-    else if (operacion == "les") {
+    else if (operation == "les") {
         string dest, src;
         ss >> dest >> src;
-        salida << dest << " = load_pointer(" << src << "); // Load ES Segment" << endl;
+        output << dest << " = load_pointer(" << src << "); // Load ES Segment" << endl;
     }
-    else if (operacion == "lodsb") {
+    else if (operation == "lodsb") {
         string reg, src;
         ss >> reg >> src;
-        salida << reg << " = *(" << src << "); // Load String Byte" << endl;
+        output << reg << " = *(" << src << "); // Load String Byte" << endl;
     }
-    else if (operacion == "aad") {
+    else if (operation == "aad") {
         string imm;
         ss >> imm;
-        salida << "AL = (AL + AH * " << imm << ") & 0xFF; // ASCII Adjust AX after Division" << endl;
+        output << "AL = (AL + AH * " << imm << ") & 0xFF; // ASCII Adjust AX after Division" << endl;
     }
-    else if (operacion == "pushfd") {
-        salida << "stack.push(EFLAGS); // Push Flags" << endl;
+    else if (operation == "pushfd") {
+        output << "stack.push(EFLAGS); // Push Flags" << endl;
     }
-    else if (operacion == "loope") {
+    else if (operation == "loope") {
         string dest;
         ss >> dest;
-        salida << "if (--ECX && ZF) goto " << dest << "; // Loop while Equal" << endl;
+        output << "if (--ECX && ZF) goto " << dest << "; // Loop while Equal" << endl;
     }
-    else if (operacion == "aaa") {
-        salida << "if ((AL & 0xF) > 9 || AF) { AL += 6; AH += 1; AF = 1; } else { AF = 0; } AL &= 0xF; // ASCII Adjust AL after Addition" << endl;
+    else if (operation == "aaa") {
+        output << "if ((AL & 0xF) > 9 || AF) { AL += 6; AH += 1; AF = 1; } else { AF = 0; } AL &= 0xF; // ASCII Adjust AL after Addition" << endl;
     }
-    else if (operacion == "sar") {
+    else if (operation == "sar") {
         string reg, imm;
         ss >> reg >> imm;
-        salida << reg << " >>= " << imm << "; // Arithmetic Shift Right" << endl;
+        output << reg << " >>= " << imm << "; // Arithmetic Shift Right" << endl;
     }
-    else if (operacion == "daa") {
-        salida << "// Decimal Adjust AL (no equivalente en alto nivel)" << endl;
+    else if (operation == "daa") {
+        output << "//Decimal Adjust AL (no equivalent in high-level)" << endl;
     }
-    else if (operacion == "scasd") {
+    else if (operation == "scasd") {
         string reg, ptr;
         ss >> reg >> ptr;
-        salida << "if (" << reg << " != *(" << ptr << ")) ZF = 0; else ZF = 1; // Compare String Data" << endl;
+        output << "if (" << reg << " != *(" << ptr << ")) ZF = 0; else ZF = 1; // Compare String Data" << endl;
     }
-    else if (operacion == "idiv") {
+    else if (operation == "idiv") {
         string src;
         ss >> src;
-        salida << "EDX:EAX /= " << src << "; // Integer Division" << endl;
+        output << "EDX:EAX /= " << src << "; // Integer Division" << endl;
     }
-    else if (operacion == "movsb") {
+    else if (operation == "movsb") {
         string dest, src;
         ss >> dest >> src;
-        salida << "*(" << dest << ") = *(" << src << "); // Move Byte String" << endl;
+        output << "*(" << dest << ") = *(" << src << "); // Move Byte String" << endl;
     }
-    else if (operacion == "aam") {
+    else if (operation == "aam") {
         string imm;
         ss >> imm;
-        salida << "AH = AL / " << imm << "; AL %= " << imm << "; // ASCII Adjust AX after Multiplication" << endl;
+        output << "AH = AL / " << imm << "; AL %= " << imm << "; // ASCII Adjust AX after Multiplication" << endl;
     }
-    else if (operacion == "clc") {
-        salida << "CF = 0; // Clear Carry Flag" << endl;
+    else if (operation == "clc") {
+        output << "CF = 0; // Clear Carry Flag" << endl;
     }
-    else if (operacion == "int1") {
-        salida << "debug_trap(); // Interrupt 1 (Debug)" << endl;
+    else if (operation == "int1") {
+        output << "debug_trap(); // Interrupt 1 (Debug)" << endl;
     }
-    else if (operacion == "shl") {
+    else if (operation == "shl") {
         string reg, imm;
         ss >> reg >> imm;
-        salida << reg << " <<= " << imm << "; // Logical Shift Left" << endl;
+        output << reg << " <<= " << imm << "; // Logical Shift Left" << endl;
     }
-    else if (operacion == "cli") {
-        salida << "IF = 0; // Clear Interrupt Flag" << endl;
+    else if (operation == "cli") {
+        output << "IF = 0; // Clear Interrupt Flag" << endl;
     }
-    else if (operacion == "jle") {
+    else if (operation == "jle") {
         string dest;
         ss >> dest;
-        salida << "if (ZF || SF != OF) goto " << dest << "; // Jump if Less or Equal" << endl;
+        output << "if (ZF || SF != OF) goto " << dest << "; // Jump if Less or Equal" << endl;
     }
-    else if (operacion == "jae") {
+    else if (operation == "jae") {
     string dest;
     ss >> dest;
-    salida << "if (CF == 0) goto " << dest << "; // Jump if Above or Equal" << endl;
+    output << "if (CF == 0) goto " << dest << "; // Jump if Above or Equal" << endl;
 }
-else if (operacion == "jb") {
+else if (operation == "jb") {
     string dest;
     ss >> dest;
-    salida << "if (CF == 1) goto " << dest << "; // Jump if Below" << endl;
+    output << "if (CF == 1) goto " << dest << "; // Jump if Below" << endl;
 }
-else if (operacion == "jbe") {
+else if (operation == "jbe") {
     string dest;
     ss >> dest;
-    salida << "if (CF == 1 || ZF == 1) goto " << dest << "; // Jump if Below or Equal" << endl;
+    output << "if (CF == 1 || ZF == 1) goto " << dest << "; // Jump if Below or Equal" << endl;
 }
-else if (operacion == "ja") {
+else if (operation == "ja") {
     string dest;
     ss >> dest;
-    salida << "if (CF == 0 && ZF == 0) goto " << dest << "; // Jump if Above" << endl;
+    output << "if (CF == 0 && ZF == 0) goto " << dest << "; // Jump if Above" << endl;
 }
-else if (operacion == "fimul") {
-    salida << "// Integer Multiply (sin equivalencia directa en C++)" << endl;
+else if (operation == "fimul") {
+    output << "//Integer Multiply (no direct equivalent in C++)" << endl;
 }
-else if (operacion == "jp") {
+else if (operation == "jp") {
     string dest;
     ss >> dest;
-    salida << "if (PF == 1) goto " << dest << "; // Jump if Parity" << endl;
+    output << "if (PF == 1) goto " << dest << "; // Jump if Parity" << endl;
 }
-else if (operacion == "int") {
+else if (operation == "int") {
     int numero;
     ss >> numero;
-    salida << "interrupt(" << numero << "); // Interrupción del sistema" << endl;
+    output << "interrupt(" << numero << "); //System interrupt" << endl;
 }
-else if (operacion == "lodsd") {
-    salida << "eax = *(uint32_t*)esi; esi += 4; // Load String DWORD" << endl;
+else if (operation == "lodsd") {
+    output << "eax = *(uint32_t*)esi; esi += 4; // Load String DWORD" << endl;
 }
-else if (operacion == "loop") {
+else if (operation == "loop") {
     string dest;
     ss >> dest;
-    salida << "if (--ecx != 0) goto " << dest << "; // Loop" << endl;
+    output << "if (--ecx != 0) goto " << dest << "; // Loop" << endl;
 }
-else if (operacion == "insb") {
+else if (operation == "insb") {
     string ptr, reg;
     ss >> ptr >> reg;
-    salida << ptr << " = " << reg << "; // Input Byte to ES:[EDI]" << endl;
+    output << ptr << " = " << reg << "; // Input Byte to ES:[EDI]" << endl;
 }
-else if (operacion == "fld") {
+else if (operation == "fld") {
     string mem;
     ss >> mem;
-    salida << "st0 = *(float*)" << mem << "; // Load floating-point value" << endl;
+    output << "st0 = *(float*)" << mem << "; // Load floating-point value" << endl;
 }
-else if (operacion == "rcr") {
+else if (operation == "rcr") {
     string ptr, count;
     ss >> ptr >> count;
-    salida << "rotate_carry_right(" << ptr << ", " << count << "); // Rotate Carry Right" << endl;
+    output << "rotate_carry_right(" << ptr << ", " << count << "); // Rotate Carry Right" << endl;
 }
-else if (operacion == "fadd") {
+else if (operation == "fadd") {
     string mem;
     ss >> mem;
-    salida << "st0 += *(float*)" << mem << "; // Floating-point Add" << endl;
+    output << "st0 += *(float*)" << mem << "; // Floating-point Add" << endl;
 }
-else if (operacion == "lahf") {
-    salida << "ah = (SF << 7) | (ZF << 6) | (0 << 5) | (AF << 4) | (0 << 3) | (PF << 2) | (1 << 1) | CF; // Load flags into AH" << endl;
+else if (operation == "lahf") {
+    output << "ah = (SF << 7) | (ZF << 6) | (0 << 5) | (AF << 4) | (0 << 3) | (PF << 2) | (1 << 1) | CF; // Load flags into AH" << endl;
 }
-else if (operacion == "jae") {
+else if (operation == "jae") {
     string dest;
     ss >> dest;
-    salida << "if (CF == 0) goto " << dest << "; // Jump if Above or Equal" << endl;
+    output << "if (CF == 0) goto " << dest << "; // Jump if Above or Equal" << endl;
 }
-else if (operacion == "jb") {
+else if (operation == "jb") {
     string dest;
     ss >> dest;
-    salida << "if (CF == 1) goto " << dest << "; // Jump if Below" << endl;
+    output << "if (CF == 1) goto " << dest << "; // Jump if Below" << endl;
 }
-else if (operacion == "jbe") {
+else if (operation == "jbe") {
     string dest;
     ss >> dest;
-    salida << "if (CF == 1 || ZF == 1) goto " << dest << "; // Jump if Below or Equal" << endl;
+    output << "if (CF == 1 || ZF == 1) goto " << dest << "; // Jump if Below or Equal" << endl;
 }
-else if (operacion == "ja") {
+else if (operation == "ja") {
     string dest;
     ss >> dest;
-    salida << "if (CF == 0 && ZF == 0) goto " << dest << "; // Jump if Above" << endl;
+    output << "if (CF == 0 && ZF == 0) goto " << dest << "; // Jump if Above" << endl;
 }
-else if (operacion == "fimul") {
-    salida << "// Integer Multiply (sin equivalencia directa en C++)" << endl;
+else if (operation == "fimul") {
+    output << "// Integer Multiply (no direct equivalent in C++)" << endl;
 }
-else if (operacion == "jp") {
+else if (operation == "jp") {
     string dest;
     ss >> dest;
-    salida << "if (PF == 1) goto " << dest << "; // Jump if Parity" << endl;
+    output << "if (PF == 1) goto " << dest << "; // Jump if Parity" << endl;
 }
-else if (operacion == "int") {
+else if (operation == "int") {
     int numero;
     ss >> numero;
-    salida << "interrupt(" << numero << "); // Interrupción del sistema" << endl;
+    output << "interrupt(" << numero << "); //System interrupt" << endl;
 }
-else if (operacion == "lodsd") {
-    salida << "eax = *(uint32_t*)esi; esi += 4; // Load String DWORD" << endl;
+else if (operation == "lodsd") {
+    output << "eax = *(uint32_t*)esi; esi += 4; // Load String DWORD" << endl;
 }
-else if (operacion == "loop") {
+else if (operation == "loop") {
     string dest;
     ss >> dest;
-    salida << "if (--ecx != 0) goto " << dest << "; // Loop" << endl;
+    output << "if (--ecx != 0) goto " << dest << "; // Loop" << endl;
 }
-else if (operacion == "insb") {
+else if (operation == "insb") {
     string ptr, reg;
     ss >> ptr >> reg;
-    salida << ptr << " = " << reg << "; // Input Byte to ES:[EDI]" << endl;
+    output << ptr << " = " << reg << "; // Input Byte to ES:[EDI]" << endl;
 }
-else if (operacion == "fld") {
+else if (operation == "fld") {
     string mem;
     ss >> mem;
-    salida << "st0 = *(float*)" << mem << "; // Load floating-point value" << endl;
+    output << "st0 = *(float*)" << mem << "; // Load floating-point value" << endl;
 }
-else if (operacion == "rcr") {
+else if (operation == "rcr") {
     string ptr, count;
     ss >> ptr >> count;
-    salida << "rotate_carry_right(" << ptr << ", " << count << "); // Rotate Carry Right" << endl;
+    output << "rotate_carry_right(" << ptr << ", " << count << "); // Rotate Carry Right" << endl;
 }
-else if (operacion == "fadd") {
+else if (operation == "fadd") {
     string mem;
     ss >> mem;
-    salida << "st0 += *(float*)" << mem << "; // Floating-point Add" << endl;
+    output << "st0 += *(float*)" << mem << "; // Floating-point Add" << endl;
 }
-else if (operacion == "lahf") {
-    salida << "ah = (SF << 7) | (ZF << 6) | (0 << 5) | (AF << 4) | (0 << 3) | (PF << 2) | (1 << 1) | CF; // Load flags into AH" << endl;
+else if (operation == "lahf") {
+    output << "ah = (SF << 7) | (ZF << 6) | (0 << 5) | (AF << 4) | (0 << 3) | (PF << 2) | (1 << 1) | CF; // Load flags into AH" << endl;
 }
 
-else if (operacion == "jae") {
+else if (operation == "jae") {
     string dest;
     ss >> dest;
-    salida << "if (CF == 0) goto " << dest << "; // Jump if Above or Equal" << endl;
+    output << "if (CF == 0) goto " << dest << "; // Jump if Above or Equal" << endl;
 }
-else if (operacion == "jb") {
+else if (operation == "jb") {
     string dest;
     ss >> dest;
-    salida << "if (CF == 1) goto " << dest << "; // Jump if Below" << endl;
+    output << "if (CF == 1) goto " << dest << "; // Jump if Below" << endl;
 }
-else if (operacion == "int") {
+else if (operation == "int") {
     int numero;
     ss >> numero;
-    salida << "interrupt(" << numero << "); // Interrupción del sistema" << endl;
+    output << "interrupt(" << numero << "); //System interrupt" << endl;
 }
-else if (operacion == "lodsd") {
-    salida << "eax = *(uint32_t*)esi; esi += 4; // Load String DWORD" << endl;
+else if (operation == "lodsd") {
+    output << "eax = *(uint32_t*)esi; esi += 4; // Load String DWORD" << endl;
 }
-else if (operacion == "loop") {
+else if (operation == "loop") {
     string dest;
     ss >> dest;
-    salida << "if (--ecx != 0) goto " << dest << "; // Loop" << endl;
+    output << "if (--ecx != 0) goto " << dest << "; // Loop" << endl;
 }
-else if (operacion == "insb") {
+else if (operation == "insb") {
     string ptr, reg;
     ss >> ptr >> reg;
-    salida << ptr << " = " << reg << "; // Input Byte to ES:[EDI]" << endl;
+    output << ptr << " = " << reg << "; // Input Byte to ES:[EDI]" << endl;
 }
-else if (operacion == "fld") {
+else if (operation == "fld") {
         string mem;
         ss >> mem;
-        salida << "st0 = *(float*)" << mem << "; // Load floating-point value" << endl;
+        output << "st0 = *(float*)" << mem << "; // Load floating-point value" << endl;
 }
-else if (operacion == "rcr") {
+else if (operation == "rcr") {
     string ptr, count;
     ss >> ptr >> count;
-    salida << "rotate_carry_right(" << ptr << ", " << count << "); // Rotate Carry Right" << endl;
+    output << "rotate_carry_right(" << ptr << ", " << count << "); // Rotate Carry Right" << endl;
 }
-else if (operacion == "fadd") {
+else if (operation == "fadd") {
         string mem;
         ss >> mem;
-        salida << "st0 += *(float*)" << mem << "; // Floating-point Add" << endl;
+        output << "st0 += *(float*)" << mem << "; // Floating-point Add" << endl;
 }
-else if (operacion == "lahf") {
-            salida << "ah = (SF << 7) | (ZF << 6) | (0 << 5) | (AF << 4) | (0 << 3) | (PF << 2) | (1 << 1) | CF; // Load flags into AH" << endl;
+else if (operation == "lahf") {
+            output << "ah = (SF << 7) | (ZF << 6) | (0 << 5) | (AF << 4) | (0 << 3) | (PF << 2) | (1 << 1) | CF; // Load flags into AH" << endl;
 }
 
 
 
 
 else {
-      salida << "// Instrucción no mapeada: " << instruccion << endl;
+      output << "//Unmapped instruction: " << instruction << endl;
     }
 }
 
 
 
-void convertir_a_C(const string& archivo_log, const string& archivo_salida) {
-    std::ifstream log_file(archivo_log);
-    if (!log_file.is_open()) {
-        std::cerr << "Error al abrir el archivo de log: " << archivo_log << std::endl;
+void convertToC(const string& logFile, const string& outputFile) {
+    std::ifstream logFile(logFile);
+    if (!logFile.is_open()) {
+        std::cerr << "Error opening log: " << logFile << std::endl;
         return;
     }
 
-    std::ofstream salida(archivo_salida);
-    if (!salida.is_open()) {
-        std::cerr << "Error al crear el archivo de salida: " << archivo_salida << std::endl;
-        perror("Detalles del error"); // Muestra más detalles sobre el error
+    std::ofstream output(outputFile);
+    if (!outputFile.is_open()) {
+        std::cerr << "Error when creating file: " << outputFile << std::endl;
+        perror("Error details"); //Show error details
         return;
     }
 
-    // Agregar bibliotecas al principio del archivo
-    agregar_bibliotecas(salida);
+    //Add libraries
+    addLibraries(output);
 
-    std::string linea;
-    while (getline(log_file, linea)) {
-        procesar_instruccion(linea, salida);
+    std::string line;
+    while (getline(logFile, line)) {
+        processInstructions(line, output);
     }
 
-    log_file.close();
-    salida.close();
-    std::cout << "Archivo de salida generado correctamente: " << archivo_salida << std::endl;
+    logFile.close();
+    output.close();
+    std::cout << "File was correctly processed: " << outputFile << std::endl;
 }

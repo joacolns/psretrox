@@ -7,12 +7,12 @@
 #include <iomanip>
 #include <ctime>
 
-// Función para desensamblar el código y guardar el log
+//Disassemble code and save a log
 void disassembleCode(const std::vector<uint8_t>& binaryCode, const std::string& fileName) {
-    // Obtener la hora actual
+    //Get current time
     std::time_t now = std::time(0);
     struct tm timeInfo;
-    localtime_s(&timeInfo, &now);  // Usar localtime_s para seguridad
+    localtime_s(&timeInfo, &now);  //Use localtime_s for thread safety
 
     /*
  
@@ -20,47 +20,47 @@ void disassembleCode(const std::vector<uint8_t>& binaryCode, const std::string& 
 
     
     std::stringstream timeStream;
-    timeStream << std::put_time(&timeInfo, "%Y-%m-%d_%H-%M-%S");  // Formato de fecha y hora
+    timeStream << std::put_time(&timeInfo, "%Y-%m-%d_%H-%M-%S");  // Date adn time format
 
     std::string timestamp = timeStream.str();
 
     */
 
-    std::string logFileName = "out/CrashTwinsanity/" + fileName + ".asm";  // Nombre del archivo log
+    std::string logFileName = "out/CrashTwinsanity/" + fileName + ".asm";  //Log filename
 
-    // Crear y abrir el archivo de asm
+    //Create and open the asm file
     std::ofstream logFile(logFileName);
     if (!logFile) {
-        std::cerr << "Error al abrir el archivo de log." << std::endl;
+        std::cerr << "Could not open log." << std::endl;
         return;
     }
 
-    // Inicializar Capstone para la arquitectura x86 (ajusta según sea necesario)
+    //Init x86 architecture Capstone (adjust if needed)
     csh handle;
-    cs_err err = cs_open(CS_ARCH_X86, CS_MODE_32, &handle); // Cambia a CS_MODE_64 si es arquitectura de 64 bits
+    cs_err err = cs_open(CS_ARCH_X86, CS_MODE_32, &handle); //if the arch is 64bit, change it to CS_MODE_64
     if (err != CS_ERR_OK) {
-        std::cerr << "Error al inicializar Capstone: " << cs_strerror(err) << std::endl;
+        std::cerr << "Error when initializing Capstone" << cs_strerror(err) << std::endl;
         return;
     }
 
-    // Desensamblar el código binario
+    //Binary code disassembly
     cs_insn* insn;
     size_t count = cs_disasm(handle, binaryCode.data(), binaryCode.size(), 0x1000, 0, &insn);
     if (count > 0) {
         for (size_t i = 0; i < count; i++) {
-            // Escribir la instrucción desensamblada en el archivo de log
+            //log the disassembly instructions
             //logFile << "0x" << std::hex << insn[i].address << ":\t" << insn[i].mnemonic << "\t" << insn[i].op_str << std::endl;
             logFile << insn[i].mnemonic << "\t" << insn[i].op_str << std::endl;
         }
         cs_free(insn, count);
     }
     else {
-        std::cerr << "No se pudo desensamblar el código." << std::endl;
+        std::cerr << "Code was not disassembled." << std::endl;
     }
 
-    // Cerrar Capstone
+    //Close capstone handler
     cs_close(&handle);
 
-    // Cerrar el archivo de asm
+    //Close the log file
     logFile.close();
 }

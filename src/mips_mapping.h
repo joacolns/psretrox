@@ -5,10 +5,10 @@
 #include <string>
 #include <fstream>
 
-// Declaración de la función que procesa una instrucción
-void procesar_instruccion(const std::string& instruccion, std::ofstream& salida);
+//Function to process a single instruction
+void processInstruction(const std::string& instruction, std::ofstream& output);
 
-// Declaración de la función principal que convierte un archivo de log a C
-void convertir_a_C(const std::string& archivo_log, const std::string& archivo_salida);
+//Function to convert a log file to C
+void converToC(const std::string& logFile, const std::string& outputFile);
 
 #endif // MIPS_MAPPING_H
