@@ -1,5 +1,9 @@
 # psretrox - Playstation 2 Decompilation & Recompilation Tool
 
+## [Project Status]
+**Due to recent attention and viral spread, I want to clarify that this project has been paused for several months. It was started as a personal and experimental exploration into low-level C++, and it is not currently under active development.
+Feel free to explore and use the code freely, with no restrictions.**
+
 PSRetrox is a C++ application designed to reverse engineer PlayStation 2 games. The primary goal of this project is to extract and process game files, enabling native PC ports of PS2 games. PSRetrox includes built-in tools for decompiling and decoding game assets, such as audio, 3D models, source code, and other game data.
 
 ---
